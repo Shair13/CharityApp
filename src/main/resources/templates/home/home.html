@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: homeHead"></head>
+<head th:replace="fragments/home-fragments :: homeHead"></head>
 <body>
-<header th:replace="fragments/home-header :: homeHeader"></header>
+<header th:replace="fragments/home-fragments :: homeHeader"></header>
 <section class="stats">
     <div class="container container--85">
         <div class="stats--item">
@@ -88,7 +88,7 @@
 
 </section>
 
-<footer th:replace="fragments/home-footer :: homeFooter"></footer>
+<footer th:replace="fragments/home-fragments :: homeFooter"></footer>
 
 <script th:src="@{/js/app.js}" type="text/javascript"></script>
 
