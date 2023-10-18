@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
@@ -32,12 +33,13 @@ public class DonationController {
     }
 
     @PostMapping("/donation")
+    @ResponseBody
     public String processDonationForm(Donation donation, BindingResult result) {
         if (result.hasErrors()) {
             return "app/form";
         }
         donationRepository.save(donation);
-        return "redirect:/";
+        return "Udało się!";
     }
 
 
