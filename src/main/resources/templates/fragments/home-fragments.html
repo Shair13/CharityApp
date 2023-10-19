@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="homeHead">
+<head th:fragment="head">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -9,11 +9,10 @@
 </head>
 <body>
 
-<header th:fragment="homeHeader" class="header--main-page">
-    <nav class="container container--70">
+    <nav class="container container--70" th:fragment="navBar">
         <ul class="nav--actions">
             <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="/registration" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
 
         <ul>
@@ -24,16 +23,6 @@
             <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
         </ul>
     </nav>
-
-    <div class="slogan container container--90">
-        <div class="slogan--item">
-            <h1>
-                Zacznij pomagać!<br/>
-                Oddaj niechciane rzeczy w zaufane ręce
-            </h1>
-        </div>
-    </div>
-</header>
 
 <footer th:fragment="homeFooter">
     <div class="contact">

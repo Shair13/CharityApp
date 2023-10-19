@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/home-fragments :: homeHead"></head>
+<head th:replace="fragments/home-fragments :: head"></head>
 <body>
-<header th:replace="fragments/home-fragments :: homeHeader"></header>
+
+<header class="header--main-page">
+    <nav th:replace="fragments/home-fragments :: navBar"></nav>
+    <div class="slogan container container--90">
+        <div class="slogan--item">
+            <h1>
+                Zacznij pomagać!<br/>
+                Oddaj niechciane rzeczy w zaufane ręce
+            </h1>
+        </div>
+    </div>
+</header>
+
 <section class="stats">
     <div class="container container--85">
         <div class="stats--item">
@@ -80,7 +92,8 @@
                     <div class="title" th:text="${institutions[i.index + 1].name}"></div>
                     <div class="subtitle" th:text="${institutions[i.index + 1].description}"></div>
                 </div>
-                <div class="col-odd" th:if="${#lists.size(institutions) % 2 != 0 and i.index == #lists.size(institutions) - 1}"></div>
+                <div class="col-odd"
+                     th:if="${#lists.size(institutions) % 2 != 0 and i.index == #lists.size(institutions) - 1}"></div>
             </li>
 
         </ul>
