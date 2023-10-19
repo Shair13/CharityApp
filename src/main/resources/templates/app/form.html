@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/home-fragments :: homeHead"></head>
+<head th:replace="fragments/home-fragments :: head"></head>
 <body>
 
 <header th:replace="fragments/app-fragments :: appHeader"></header>
@@ -12,7 +12,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-        <form th:action="@{/donation}" method="post">
+        <form th:action="@{/donation}" method="POST">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
