@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,38 +19,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/registration", "/donation", "/resources/**").permitAll()
+                        .requestMatchers("/", "/home", "/registration", "/resources/**").permitAll()
                         .anyRequest().authenticated())
-                .formLogin((form) -> form
-                        .loginPage("/login")
-//                       .usernameParameter("email")
+                .formLogin(form -> form
+                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/")
                         .permitAll())
-                .logout(LogoutConfigurer::permitAll);
-
+                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
+                .exceptionHandling(exception -> exception.accessDeniedPage("/403"));
         return http.build();
     }
 
-//    @Bean
-//    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .requestMatchers("/").permitAll()
-//                .requestMatchers("/about").authenticated()
-//                .and().formLogin().loginPage("/login");
-//        return http.build();
-//    }
-//
-//    @Bean
-//    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/dashboard").authenticated()
-//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .and().formLogin().loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .and().logout().logoutSuccessUrl("/")
-//                .and().exceptionHandling().accessDeniedPage("/403");
-//        return http.build();
-//    }
-
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

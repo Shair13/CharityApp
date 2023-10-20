@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/home-fragments :: head"></head>
+<head th:replace="fragments/fragments :: head"></head>
 <body>
 
 <header class="header--main-page">
-    <nav th:replace="fragments/home-fragments :: navBar"></nav>
+    <nav th:replace="fragments/fragments :: navBar"></nav>
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
@@ -101,7 +101,7 @@
 
 </section>
 
-<footer th:replace="fragments/home-fragments :: homeFooter"></footer>
+<footer th:replace="fragments/fragments :: footer"></footer>
 
 <script th:src="@{/resources/js/app.js}" type="text/javascript"></script>
 

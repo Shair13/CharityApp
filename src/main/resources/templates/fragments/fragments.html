@@ -10,13 +10,31 @@
 <body>
 
     <nav class="container container--70" th:fragment="navBar">
-        <ul class="nav--actions">
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="/registration" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+        <ul class="nav--actions" th:unless="${#authorization.expression('isAuthenticated()')}">
+            <li><a th:href="@{/login}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a th:href="@{/registration}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+        </ul>
+
+        <ul class="nav--actions" th:if="${#authorization.expression('isAuthenticated()')}">
+            <li class="logged-user">
+                Witaj Agata
+                <ul class="dropdown">
+                    <li><a href="#">Profil</a></li>
+                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a th:href="@{/donation}">Nowa zbiórka</a></li>
+                    <li>
+                        <form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/logout}"
+                              method="post">
+                            <input type="submit" value="Wyloguj">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        </form>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
-            <li><a href="#" class="btn btn--without-border active">Start</a></li>
+            <li><a th:href="@{/}" class="btn btn--without-border active">Start</a></li>
             <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="#" class="btn btn--without-border">O nas</a></li>
             <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
@@ -24,7 +42,7 @@
         </ul>
     </nav>
 
-<footer th:fragment="homeFooter">
+<footer th:fragment="footer">
     <div class="contact">
         <h2>Skontaktuj się z nami</h2>
         <h3>Formularz kontaktowy</h3>
