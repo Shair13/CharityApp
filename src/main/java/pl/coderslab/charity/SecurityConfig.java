@@ -16,14 +16,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(r -> r
                         .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
-                        .requestMatchers("/donation").authenticated())
-                .formLogin(f -> f
-                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/")
-                        .permitAll())
-                .logout(l -> l
-                        .logoutSuccessUrl("/").permitAll())
-                .exceptionHandling(e -> e
-                        .accessDeniedPage("/403"));
+                        .requestMatchers("/donation").authenticated()).formLogin(f -> f
+                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
+                .logout(l -> l.logoutSuccessUrl("/").permitAll())
+                .exceptionHandling(e -> e.accessDeniedPage("/403"));
 
         return http.build();
     }
