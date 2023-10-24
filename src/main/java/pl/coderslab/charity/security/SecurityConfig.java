@@ -15,9 +15,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(r -> r
-                        .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
-                        .requestMatchers("/donation").authenticated()).formLogin(f -> f
-                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
+                        .requestMatchers("/", "/registration", "/resources/**").permitAll()
+                        .requestMatchers("/donation").authenticated()
+                        .requestMatchers("/dashboard/**").hasRole("ADMIN"))
+                .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .exceptionHandling(e -> e.accessDeniedPage("/403"));
 
