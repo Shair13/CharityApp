@@ -17,7 +17,8 @@
 
         <ul class="nav--actions" th:if="${#authorization.expression('isAuthenticated()')}">
             <li class="logged-user">
-                Witaj Agata
+<!--                <span th:text="${#authentication.name}"></span>-->
+                <span th:text="${#authentication.principal.firstName}"></span>
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>

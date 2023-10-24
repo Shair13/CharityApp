@@ -24,6 +24,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     //   .authorizeHttpRequests((requests) -> requests
     //                        .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
     //                        .requestMatchers("/donation").authenticated())
