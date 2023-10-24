@@ -30,19 +30,4 @@ public class HomeController {
         model.addAttribute("donations", donationRepository.findAll().size());
         return "home/home";
     }
-
-    @GetMapping("/registration")
-    public String displayRegistrationForm(Model model){
-        model.addAttribute("user", new User());
-        return "home/registration-form";
-    }
-
-    @PostMapping("/registration")
-    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2){
-     if(result.hasErrors() || !user.getPassword().equals(password2)){
-         return "home/registration-form";
-     }
-        userRepository.save(user);
-        return "redirect:/";
-    }
 }

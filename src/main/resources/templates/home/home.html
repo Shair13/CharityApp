@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/home-fragments :: head"></head>
+<head th:replace="fragments/fragments :: head"></head>
 <body>
 
 <header class="header--main-page">
-    <nav th:replace="fragments/home-fragments :: navBar"></nav>
+    <nav th:replace="fragments/fragments :: navBar"></nav>
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
@@ -69,9 +69,9 @@
         <h2>O nas</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero
             optio esse quisquam illo omnis.</p>
-        <img th:src="@{/images/signature.svg}" class="about-us--text-signature" alt="Signature"/>
+        <img th:src="@{/resources/images/signature.svg}" class="about-us--text-signature" alt="Signature"/>
     </div>
-    <div class="about-us--image"><img th:src="@{/images/about-us.jpg}" alt="People in circle"/></div>
+    <div class="about-us--image"><img th:src="@{/resources/images/about-us.jpg}" alt="People in circle"/></div>
 </section>
 
 <section class="help">
@@ -101,9 +101,9 @@
 
 </section>
 
-<footer th:replace="fragments/home-fragments :: homeFooter"></footer>
+<footer th:replace="fragments/fragments :: footer"></footer>
 
-<script th:src="@{/js/app.js}" type="text/javascript"></script>
+<script th:src="@{/resources/js/app.js}" type="text/javascript"></script>
 
 </body>
 </html>
