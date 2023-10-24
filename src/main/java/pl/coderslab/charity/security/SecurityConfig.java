@@ -1,11 +1,14 @@
-package pl.coderslab.charity;
+package pl.coderslab.charity.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -14,25 +17,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(r -> r
+                .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
-                        .requestMatchers("/donation").authenticated()).formLogin(f -> f
+                        .requestMatchers("/donation").authenticated()).formLogin(login -> login
                         .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
-                .logout(l -> l.logoutSuccessUrl("/").permitAll())
-                .exceptionHandling(e -> e.accessDeniedPage("/403"));
+                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
+                .exceptionHandling(exception -> exception.accessDeniedPage("/403"));
 
         return http.build();
     }
 
-
-    //   .authorizeHttpRequests((requests) -> requests
-    //                        .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
-    //                        .requestMatchers("/donation").authenticated())
-    //                .formLogin(form -> form
-    //                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/")
-    //                        .permitAll())
-    //                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
-    //                .exceptionHandling(exception -> exception.accessDeniedPage("/403"));
+    @Bean
+    UserDetailsService userDetailsService(UserRepository userRepository){
+        return new CustomUserDetailsService(userRepository);
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

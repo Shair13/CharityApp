@@ -1,5 +1,6 @@
 package pl.coderslab.charity.service;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.model.Role;
@@ -9,6 +10,7 @@ import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
     @Override
     public void saveUser(User user) {
