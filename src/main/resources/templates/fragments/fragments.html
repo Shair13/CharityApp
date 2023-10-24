@@ -9,39 +9,39 @@
 </head>
 <body>
 
-    <nav class="container container--70" th:fragment="navBar">
-        <ul class="nav--actions" th:unless="${#authorization.expression('isAuthenticated()')}">
-            <li><a th:href="@{/login}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a th:href="@{/registration}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-        </ul>
+<nav class="container container--70" th:fragment="navBar">
+    <ul class="nav--actions" th:unless="${#authorization.expression('isAuthenticated()')}">
+        <li><a th:href="@{/login}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+        <li><a th:href="@{/registration}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+    </ul>
 
-        <ul class="nav--actions" th:if="${#authorization.expression('isAuthenticated()')}">
-            <li class="logged-user">
-<!--                <span th:text="${#authentication.name}"></span>-->
-                <span th:text="${#authentication.principal.firstName}"></span>
-                <ul class="dropdown">
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
-                    <li><a th:href="@{/donation}">Nowa zbiórka</a></li>
-                    <li>
-                        <form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/logout}"
-                              method="post">
-                            <input type="submit" value="Wyloguj">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                        </form>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <ul class="nav--actions" th:if="${#authorization.expression('isAuthenticated()')}">
+        <li class="logged-user">
+            <span th:text="${#authentication.name}"></span>
+            <!--                <span th:text="${#authentication.principal.firstName}"></span>-->
+            <ul class="dropdown">
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Moje zbiórki</a></li>
+                <li><a th:href="@{/donation}">Nowa zbiórka</a></li>
+                <li>
+                    <form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/logout}"
+                          method="post">
+                        <input type="submit" value="Wyloguj">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    </ul>
 
-        <ul>
-            <li><a th:href="@{/}" class="btn btn--without-border active">Start</a></li>
-            <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
-            <li><a href="#" class="btn btn--without-border">O nas</a></li>
-            <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
-            <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
-        </ul>
-    </nav>
+    <ul>
+        <li><a th:href="@{/}" class="btn btn--without-border active">Start</a></li>
+        <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
+        <li><a href="#" class="btn btn--without-border">O nas</a></li>
+        <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
+        <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
+    </ul>
+</nav>
 
 <footer th:fragment="footer">
     <div class="contact">
@@ -59,8 +59,9 @@
     <div class="bottom-line">
         <span class="bottom-line--copy">Copyright &copy; 2018</span>
         <div class="bottom-line--icons">
-            <a href="#" class="btn btn--small"><img th:src="@{/resources/images/icon-facebook.svg}" alt="facebook-icon"/></a> <a href="#"
-                                                                                                                                 class="btn btn--small"><img
+            <a href="#" class="btn btn--small"><img th:src="@{/resources/images/icon-facebook.svg}"
+                                                    alt="facebook-icon"/></a> <a href="#"
+                                                                                 class="btn btn--small"><img
                 th:src="@{/resources/images/icon-instagram.svg}"/></a>
         </div>
     </div>
