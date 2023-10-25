@@ -25,7 +25,7 @@
             <td th:text="${institution.name}"></td>
             <td th:text="${institution.description}"></td>
             <td>
-                <a th:href="@{/dashboard/institution/edit/${institution.id}}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/institution/edit/{id}(id=${institution.id})}" class="btn">Edytuj</a>
                 <a th:href="@{/dashboard/institution/delete/${institution.id}}" class="btn">Usuń</a>
             </td>
         </tr>

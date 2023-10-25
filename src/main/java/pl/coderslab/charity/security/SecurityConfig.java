@@ -18,13 +18,13 @@ public class SecurityConfig {
                         .requestMatchers("/", "/registration", "/resources/**").permitAll()
                         .requestMatchers("/donation").authenticated()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN"))
-                .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
+                .formLogin(f -> f.loginPage("/login").usernameParameter("email").successHandler().defaultSuccessUrl("/").permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .exceptionHandling(e -> e.accessDeniedPage("/403"));
 
         return http.build();
     }
-
+//authentication success/failure handler
 
     //   .authorizeHttpRequests((requests) -> requests
     //                        .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
