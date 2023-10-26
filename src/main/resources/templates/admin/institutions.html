@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: head"></head>
+<body>
+
+<header th:replace="fragments/admin :: admin-header"></header>
+<section class="steps">
+    <div class="form-group">
+        <a th:href="@{/dashboard/institution/add}" class="btn">Dodaj fundację</a>
+    </div>
+</section>
+<section class="steps">
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nazwa</th>
+            <th>Opis</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="institution : ${institutions}">
+            <td th:text="${institution.id}"></td>
+            <td th:text="${institution.name}"></td>
+            <td th:text="${institution.description}"></td>
+            <td>
+                <a th:href="@{/dashboard/institution/edit/{id}(id=${institution.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/institution/delete/{id}(id=${institution.id})}" class="btn">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</body>
+</html>
