@@ -17,14 +17,11 @@ public class UserController {
 
     private final SearchUserService searchUserService;
     private final UserRepository userRepository;
-    private final UserService userService;
 
-    public UserController(SearchUserService searchUserService, UserRepository userRepository, UserService userService) {
+    public UserController(SearchUserService searchUserService, UserRepository userRepository) {
         this.searchUserService = searchUserService;
         this.userRepository = userRepository;
-        this.userService = userService;
     }
-
 
 
     @GetMapping("/users")
@@ -33,12 +30,23 @@ public class UserController {
         return "admin/users";
     }
 
-    @GetMapping("/user/edit/{id}")
-    public String displayEditUserForm(@PathVariable Long id, Model model) {
+    @GetMapping("block/{id}")
+    public String blockUser(@PathVariable Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(u -> model.addAttribute("user", u));
-        return "admin/user-edit-form";
+        optionalUser.ifPresent(u -> {
+            u.setEnabled(0);
+            userRepository.save(u);
+        });
+        return "redirect:/dashboard/users";
     }
 
-
+    @GetMapping("unblock/{id}")
+    public String unblockUser(@PathVariable Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(u -> {
+            u.setEnabled(1);
+            userRepository.save(u);
+        });
+        return "redirect:/dashboard/users";
+    }
 }

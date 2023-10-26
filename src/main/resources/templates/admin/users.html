@@ -18,6 +18,7 @@
             <th>Email</th>
             <th>Ważność konta</th>
             <th>Akcje</th>
+            <th>Blokowanie</th>
         </tr>
         </thead>
         <tbody>
@@ -27,8 +28,15 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.enabled}"></td>
             <td>
-                <a th:href="@{/dashboard/admin/edit/{id}(id=${user.id})}" class="btn">Edytuj</a>
-                <a th:href="@{/dashboard/admin/delete/{id}(id=${user.id})}" class="btn">Usuń</a>
+                <a th:href="@{/dashboard/edit/{id}(id=${user.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/delete/{id}(id=${user.id})}" class="btn">Usuń</a>
+                <a th:href="@{/dashboard/password/{id}(id=${user.id})}" class="btn">Zmień hasło</a>
+            </td>
+            <td th:if="${user.enabled == 1}">
+                <a th:href="@{/dashboard/block/{id}(id=${user.id})}" class="btn btn-red">Blokuj</a>
+            </td>
+            <td th:if="${user.enabled == 0}">
+                <a th:href="@{/dashboard/unblock/{id}(id=${user.id})}" class="btn btn-green">Odblokuj</a>
             </td>
         </tr>
         </tbody>
