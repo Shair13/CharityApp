@@ -1832,13 +1832,21 @@ footer .bottom-line--icons a img {
 
 /* tabele */
 
-table, tr, td {
+table, tr{
   border: 2px solid dimgray;
   border-collapse: collapse;
   background-color: whitesmoke;
   padding: 5px;
   font-size: 18px;
 }
+
+td{
+    border: 2px solid dimgray;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 18px;
+  }
+
 
 tr, td {
   padding: 20px 30px;
@@ -1850,6 +1858,10 @@ tr, td {
 
 .btn-green{
   color: green;
+}
+
+.archived{
+  background-color: darkseagreen;
 }
 
 

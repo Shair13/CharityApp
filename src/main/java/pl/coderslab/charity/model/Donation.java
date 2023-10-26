@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -57,5 +58,17 @@ public class Donation {
 
     @NotBlank
     private String phone;
+
+    @ManyToOne
+    private User user;
+
+    private int archived = 0;
+
+    @Column(columnDefinition = "DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
+    private LocalDate realPickUpDate;
+
+    private LocalTime realPickUpTime;
 
 }

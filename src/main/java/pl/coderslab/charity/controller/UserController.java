@@ -17,12 +17,28 @@ public class UserController {
 
     private final SearchUserService searchUserService;
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(SearchUserService searchUserService, UserRepository userRepository) {
+    public UserController(SearchUserService searchUserService, UserRepository userRepository, UserService userService) {
         this.searchUserService = searchUserService;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
+    @GetMapping("/user/add")
+    public String displayAddUserForm(Model model) {
+        model.addAttribute("user", new User());
+        return "admin/user-add-form";
+    }
+
+    @PostMapping("/user/add")
+    public String processAddUserForm(User user, BindingResult result, @RequestParam String password2) {
+        if (result.hasErrors() || !user.getPassword().equals(password2)) {
+            return "admin/user-add-form";
+        }
+        userService.saveUser(user, "USER");
+        return "redirect:/dashboard/users";
+    }
 
     @GetMapping("/users")
     public String displayUsers(Model model) {
