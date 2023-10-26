@@ -20,7 +20,7 @@
             <span th:text="${#authentication.name}"></span>
             <!--                <span th:text="${#authentication.principal.firstName}"></span>-->
             <ul class="dropdown">
-                <li><a href="#">Profil</a></li>
+                <li><a th:href="@{/profile}">Profil</a></li>
                 <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                     <a th:href="@{/dashboard}">Panel Admina</a>
                 </li>
