@@ -7,15 +7,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.User;
+import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.SpringDataUserDetailsService;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -26,12 +29,14 @@ public class UserProfileController {
     private final SpringDataUserDetailsService springDataUserDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final DonationRepository donationRepository;
 
 
-    public UserProfileController(UserRepository userRepository, SpringDataUserDetailsService springDataUserDetailsService, BCryptPasswordEncoder passwordEncoder) {
+    public UserProfileController(UserRepository userRepository, SpringDataUserDetailsService springDataUserDetailsService, BCryptPasswordEncoder passwordEncoder, DonationRepository donationRepository) {
         this.userRepository = userRepository;
         this.springDataUserDetailsService = springDataUserDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.donationRepository = donationRepository;
     }
 
     @GetMapping("/edit")
@@ -83,6 +88,34 @@ public class UserProfileController {
             return "redirect:/profile";
         }
         return "profile/change-password";
+    }
+
+    @GetMapping("/donations")
+    public String showDonations(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        User user = userRepository.findByEmail(email);
+        model.addAttribute("donations", donationRepository.findAllSortedByArchivedAndPickUpDate(user));
+        return "profile/donations";
+    }
+
+    @GetMapping("/donation/{id}")
+    public String donationDetails(Model model, @PathVariable Long id){
+        Optional<Donation> optionalDonation = donationRepository.findById(id);
+        optionalDonation.ifPresent(d -> model.addAttribute("donation", d));
+        return "profile/donation";
+    }
+
+    @GetMapping("archive/{id}")
+    public String archiveDonation(@PathVariable Long id) {
+        Optional<Donation> optionalDonation = donationRepository.findById(id);
+        optionalDonation.ifPresent(d -> {
+            d.setArchived(1);
+            d.setRealPickUpDate(LocalDate.now());
+            d.setRealPickUpTime(LocalTime.now());
+            donationRepository.save(d);
+        });
+        return "redirect:/profile/donations";
     }
 
 

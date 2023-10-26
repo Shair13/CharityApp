@@ -36,7 +36,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add")
-    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2) {
+    public String processAddAdminForm(User user, BindingResult result, @RequestParam String password2) {
         if (result.hasErrors() || !user.getPassword().equals(password2)) {
             return "admin/admin-add-form";
         }
