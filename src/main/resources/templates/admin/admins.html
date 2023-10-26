@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: head"></head>
+<body>
+
+<header th:replace="fragments/admin :: admin-header"></header>
+
+<section class="steps">
+    <div class="form-group">
+        <a th:href="@{/dashboard/admin/add}" class="btn">Dodaj Administratora</a>
+    </div>
+</section>
+<section class="steps">
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imię</th>
+            <th>Email</th>
+            <th>Ważność konta</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="admin : ${admins}">
+            <td th:text="${admin.id}"></td>
+            <td th:text="${admin.firstName}"></td>
+            <td th:text="${admin.email}"></td>
+            <td th:text="${admin.enabled}"></td>
+            <td>
+                <a th:href="@{/dashboard/edit/{id}(id=${admin.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/delete/{id}(id=${admin.id})}" class="btn">Usuń</a>
+                <a th:href="@{/dashboard/password/{id}(id=${admin.id})}" class="btn">Zmień hasło</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</body>
+</html>

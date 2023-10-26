@@ -3,45 +3,41 @@ package pl.coderslab.charity.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.model.User;
+import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.SearchUserService;
 import pl.coderslab.charity.service.UserService;
 
+import java.util.Optional;
+
 @Controller
+@RequestMapping("/dashboard")
 public class UserController {
 
+    private final SearchUserService searchUserService;
+    private final UserRepository userRepository;
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(SearchUserService searchUserService, UserRepository userRepository, UserService userService) {
+        this.searchUserService = searchUserService;
+        this.userRepository = userRepository;
         this.userService = userService;
     }
-//    @GetMapping("/create-user")
-//    @ResponseBody
-//    public String createUser() {
-//        User user = new User();
-//        user.setFirstName("Czarek");
-//        user.setEmail("admin@admin.pl");
-//        user.setPassword("admin");
-//        userService.saveUser(user);
-//        return "admin";
-//    }
 
-    @GetMapping("/registration")
-    public String displayRegistrationForm(Model model){
-        model.addAttribute("user", new User());
-        return "home/registration-form";
+
+
+    @GetMapping("/users")
+    public String displayUsers(Model model) {
+        model.addAttribute("users", searchUserService.findUserByRole("ROLE_USER"));
+        return "admin/users";
     }
 
-    @PostMapping("/registration")
-    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2){
-        if(result.hasErrors() || !user.getPassword().equals(password2)){
-            return "home/registration-form";
-        }
-        userService.saveUser(user);
-        return "redirect:/";
+    @GetMapping("/user/edit/{id}")
+    public String displayEditUserForm(@PathVariable Long id, Model model) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(u -> model.addAttribute("user", u));
+        return "admin/user-edit-form";
     }
 
 

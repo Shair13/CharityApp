@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: head"></head>
+<body>
+
+<header th:replace="fragments/admin :: admin-header"></header>
+<section class="steps">
+    <div class="form-group">
+        <a th:href="@{/dashboard/user/add}" class="btn">Dodaj Użytkownika</a>
+    </div>
+</section>
+<section class="steps">
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imię</th>
+            <th>Email</th>
+            <th>Ważność konta</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.enabled}"></td>
+            <td>
+                <a th:href="@{/dashboard/admin/edit/{id}(id=${user.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/admin/delete/{id}(id=${user.id})}" class="btn">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</body>
+</html>

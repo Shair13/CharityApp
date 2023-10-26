@@ -18,22 +18,13 @@ public class SecurityConfig {
                         .requestMatchers("/", "/registration", "/resources/**").permitAll()
                         .requestMatchers("/donation").authenticated()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN"))
-                .formLogin(f -> f.loginPage("/login").usernameParameter("email").successHandler().defaultSuccessUrl("/").permitAll())
+                .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .exceptionHandling(e -> e.accessDeniedPage("/403"));
 
         return http.build();
     }
 //authentication success/failure handler
-
-    //   .authorizeHttpRequests((requests) -> requests
-    //                        .requestMatchers("/", "/registration", "/create-user", "/resources/**").permitAll()
-    //                        .requestMatchers("/donation").authenticated())
-    //                .formLogin(form -> form
-    //                        .loginPage("/login").usernameParameter("email").defaultSuccessUrl("/")
-    //                        .permitAll())
-    //                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
-    //                .exceptionHandling(exception -> exception.accessDeniedPage("/403"));
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
