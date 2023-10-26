@@ -16,7 +16,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(r -> r
                         .requestMatchers("/", "/registration", "/resources/**").permitAll()
-                        .requestMatchers("/donation").authenticated()
+                        .requestMatchers("/donation", "/profile/**").authenticated()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN"))
                 .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
