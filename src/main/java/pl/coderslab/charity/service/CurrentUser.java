@@ -12,4 +12,9 @@ public class CurrentUser extends User {
         this.user = user;
     }
     public pl.coderslab.charity.model.User getUser() {return user;}
+
+    @Override
+    public boolean isEnabled() {
+        return user.getEnabled() > 0;
+    }
 }
