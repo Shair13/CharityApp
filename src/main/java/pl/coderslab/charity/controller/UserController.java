@@ -1,27 +1,26 @@
 package pl.coderslab.charity.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.UserRepository;
-import pl.coderslab.charity.service.SearchUserService;
+import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/dashboard")
 public class UserController {
 
-    private final SearchUserService searchUserService;
-    private final UserRepository userRepository;
+    private final UserOperationService userOperationService;
     private final UserService userService;
 
-    public UserController(SearchUserService searchUserService, UserRepository userRepository, UserService userService) {
-        this.searchUserService = searchUserService;
-        this.userRepository = userRepository;
+    public UserController(UserOperationService userOperationService1, UserService userService) {
+        this.userOperationService = userOperationService1;
         this.userService = userService;
     }
 
@@ -42,27 +41,61 @@ public class UserController {
 
     @GetMapping("/users")
     public String displayUsers(Model model) {
-        model.addAttribute("users", searchUserService.findUserByRole("ROLE_USER"));
+        model.addAttribute("users", userOperationService.findUserByRole("ROLE_USER"));
         return "admin/users";
     }
 
-    @GetMapping("block/{id}")
-    public String blockUser(@PathVariable Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(u -> {
-            u.setEnabled(0);
-            userRepository.save(u);
-        });
+    @GetMapping("/user/edit/{id}")
+    public String displayEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("userDTO", userOperationService.getUserDTO(id));
+        return "admin/user-edit-form";
+    }
+
+    @PostMapping("/user/edit")
+    public String processEditForm(@Valid UserDTO userDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/user-edit-form";
+        }
+        userOperationService.updateUserData(userDTO);
         return "redirect:/dashboard/users";
     }
 
-    @GetMapping("unblock/{id}")
+    @GetMapping("/user/password/{id}")
+    public String displayChangePassForm(@PathVariable Long id, Model model){
+        model.addAttribute("userDTO", userOperationService.getUserDTO(id));
+        return "admin/user-change-password";
+    }
+
+    @PostMapping("/user/password")
+    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2){
+        if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
+            userOperationService.updatePassword(userDTO, password2);
+            return "redirect:/dashboard/users";
+        }
+        return "admin/user-change-password";
+    }
+
+    @GetMapping("/user/block/{id}")
+    public String blockUser(@PathVariable Long id) {
+        userOperationService.blockUser(id);
+        return "redirect:/dashboard/users";
+    }
+
+    @GetMapping("/user/unblock/{id}")
     public String unblockUser(@PathVariable Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(u -> {
-            u.setEnabled(1);
-            userRepository.save(u);
-        });
+        userOperationService.unblockUser(id);
+        return "redirect:/dashboard/users";
+    }
+
+    @GetMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id, Authentication authentication){
+        userOperationService.deleteUser(id, authentication);
+        return "redirect:/dashboard/users";
+    }
+
+    @GetMapping("/user/recover/{id}")
+    public String recoverUser(@PathVariable Long id){
+        userOperationService.recoverUser(id);
         return "redirect:/dashboard/users";
     }
 }
