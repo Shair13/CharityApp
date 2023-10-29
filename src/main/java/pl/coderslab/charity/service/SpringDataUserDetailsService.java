@@ -20,9 +20,9 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
     @Override
-    public UserDetails loadUserByUsername(String email) { //lub find by emailAndIsDeleted(String email, int 0)
+    public UserDetails loadUserByUsername(String email) {
         User user = userService.findByEmail(email);
-        if (user == null) {throw new UsernameNotFoundException(email); } // || isDeleted
+        if (user == null) {throw new UsernameNotFoundException(email); }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         user.getRoles().forEach(r ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));

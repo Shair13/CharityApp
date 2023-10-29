@@ -15,6 +15,6 @@ public class CurrentUser extends User {
 
     @Override
     public boolean isEnabled() {
-        return user.getEnabled() > 0;
+        return getUser().getEnabled() == 1;
     }
 }
