@@ -33,7 +33,7 @@ public class DonationController {
     public String displayDonationForm(Model model) {
         model.addAttribute("donation", new Donation());
         model.addAttribute("categories", categoryRepository.findAll());
-        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("institutions", institutionRepository.findAllByIsDeleted(0));
         return "app/form";
     }
 
@@ -44,7 +44,7 @@ public class DonationController {
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0);
         donation.setUser(user);
         donationRepository.save(donation);
         return "redirect:/";

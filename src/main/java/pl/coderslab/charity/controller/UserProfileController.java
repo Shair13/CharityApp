@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
@@ -16,9 +16,7 @@ import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.SpringDataUserDetailsService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -43,7 +41,7 @@ public class UserProfileController {
     public String displayEditUserForm(Model model, Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0);
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
@@ -70,7 +68,7 @@ public class UserProfileController {
     public String displayChangePasswordForm(Model model, Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0);
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         model.addAttribute("userDTO", userDTO);
@@ -94,7 +92,7 @@ public class UserProfileController {
     public String showDonations(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0);
         model.addAttribute("donations", donationRepository.findAllSortedByArchivedAndPickUpDate(user));
         return "profile/donations";
     }

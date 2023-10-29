@@ -38,7 +38,7 @@ public class InstitutionController {
 
     @GetMapping("/institutions")
     public String displayInstitutions(Model model) {
-        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("institutions", institutionRepository.findAllByIsDeleted(0));
         return "admin/institutions";
     }
 
@@ -61,7 +61,10 @@ public class InstitutionController {
     @GetMapping("/institution/delete/{id}")
     public String deleteInstitution(@PathVariable Long id) {
         Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        optionalInstitution.ifPresent(institutionRepository::delete);
+        optionalInstitution.ifPresent(i -> {
+            i.setIsDeleted(1);
+            institutionRepository.save(i);
+        });
         return "redirect:/dashboard/institutions";
     }
 }

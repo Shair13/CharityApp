@@ -22,15 +22,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="admin : ${admins}">
+        <tr th:each="admin : ${admins}" th:classappend="${admin.isDeleted == 1} ? 'deleted' : ''">
             <td th:text="${admin.id}"></td>
             <td th:text="${admin.firstName}"></td>
             <td th:text="${admin.email}"></td>
             <td th:text="${admin.enabled}"></td>
-            <td>
-                <a th:href="@{/dashboard/edit/{id}(id=${admin.id})}" class="btn">Edytuj</a>
-                <a th:href="@{/dashboard/delete/{id}(id=${admin.id})}" class="btn">Usuń</a>
-                <a th:href="@{/dashboard/password/{id}(id=${admin.id})}" class="btn">Zmień hasło</a>
+            <td th:if="${admin.isDeleted == 0}">
+                <a th:href="@{/dashboard/admin/edit/{id}(id=${admin.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/admin/delete/{id}(id=${admin.id})}" class="btn">Usuń</a>
+                <a th:href="@{/dashboard/admin/password/{id}(id=${admin.id})}" class="btn">Zmień hasło</a>
+            </td>
+            <td th:if="${admin.isDeleted == 1}">
+                <a th:href="@{/dashboard/admin/recover/{id}(id=${admin.id})}" class="btn">Przywróć</a>
             </td>
         </tr>
         </tbody>
