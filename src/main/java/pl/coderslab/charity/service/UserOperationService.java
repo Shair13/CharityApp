@@ -12,6 +12,7 @@ import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserOperationService {
@@ -84,5 +85,11 @@ public class UserOperationService {
                 u.setIsDeleted(0);
                 userRepository.save(u);
         });
+    }
+
+    public void activateUser(UUID uuid){
+       User user = userRepository.findAllByUuid(uuid);
+       user.setEnabled(1);
+       userRepository.save(user);
     }
 }
