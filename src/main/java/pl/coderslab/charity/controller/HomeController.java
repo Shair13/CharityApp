@@ -29,7 +29,7 @@ public class HomeController {
     private final UserRepository userRepository;
 
     @GetMapping("/")
-    public String homeAction(Model model){
+    public String homeAction(Model model) {
         model.addAttribute("institutions", institutionRepository.findAll());
         model.addAttribute("sumQuantity", donationRepository.sumQuantity());
         model.addAttribute("donations", donationRepository.findAll().size());
@@ -37,14 +37,14 @@ public class HomeController {
     }
 
     @GetMapping("/registration")
-    public String displayRegistrationForm(Model model){
+    public String displayRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "home/registration-form";
     }
 
     @PostMapping("/registration")
-    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2){
-        if(result.hasErrors() || !user.getPassword().equals(password2)){
+    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2) {
+        if (result.hasErrors() || !user.getPassword().equals(password2)) {
             return "home/registration-form";
         }
         UUID uuid = UUID.randomUUID();
@@ -57,26 +57,38 @@ public class HomeController {
     }
 
     @GetMapping("/activation/{uuid}")
-    public String accountActivation(@PathVariable UUID uuid){
+    public String accountActivation(@PathVariable UUID uuid) {
         userOperationService.activateUser(uuid);
         return "redirect:/";
     }
 
     @GetMapping("/reminder")
-    public String displayPasswordReminder(Model model) {
-        model.addAttribute("email", new UserDTO());
+    public String displayPasswordReminder() {
         return "home/password-reminder";
     }
 
     @PostMapping("/reminder")
-    public String passwordReminder(UserDTO userDTO){
-        User user = userService.findByEmail(userDTO.getEmail());
+    public String passwordReminder(@RequestParam String email) {
+        User user = userService.findByEmail(email);
         UUID uuid = UUID.randomUUID();
         user.setUuid(uuid);
         userRepository.save(user);
-        String link = "http://localhost:8080/reminder/" + user.getUuid();
+        String link = "http://localhost:8080/newpass/" + user.getUuid();
         String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
-        emailService.sendSimpleMessage(userDTO.getEmail(), "Password remainder", emailText);
+        emailService.sendSimpleMessage(email, "Password reminder", emailText);
+        return "redirect:/";
+    }
+
+    @GetMapping("/newpass/{uuid}")
+    public String displayNewPasswordForm(@PathVariable UUID uuid, Model model) {
+        User user = userRepository.findAllByUuid(uuid);
+        model.addAttribute("userDTO", userOperationService.getUserDTO(user.getId()));
+        return "home/new-password-form";
+    }
+
+    @PostMapping("/newpass")
+    private String processNewPasswordForm(UserDTO userDTO, @RequestParam String password2) {
+        userOperationService.updatePassword(userDTO, password2);
         return "redirect:/";
     }
 
