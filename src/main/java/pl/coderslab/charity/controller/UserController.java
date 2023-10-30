@@ -21,7 +21,6 @@ public class UserController {
     private final UserOperationService userOperationService;
     private final UserService userService;
 
-
     @GetMapping("/user/add")
     public String displayAddUserForm(Model model) {
         model.addAttribute("user", new User());
@@ -59,13 +58,13 @@ public class UserController {
     }
 
     @GetMapping("/user/password/{id}")
-    public String displayChangePassForm(@PathVariable Long id, Model model){
+    public String displayChangePassForm(@PathVariable Long id, Model model) {
         model.addAttribute("userDTO", userOperationService.getUserDTO(id));
         return "admin/user-change-password";
     }
 
     @PostMapping("/user/password")
-    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2){
+    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2) {
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
             userOperationService.updatePassword(userDTO, password2);
             return "redirect:/dashboard/users";
@@ -86,13 +85,13 @@ public class UserController {
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable Long id, Authentication authentication){
+    public String deleteUser(@PathVariable Long id, Authentication authentication) {
         userOperationService.deleteUser(id, authentication);
         return "redirect:/dashboard/users";
     }
 
     @GetMapping("/user/recover/{id}")
-    public String recoverUser(@PathVariable Long id){
+    public String recoverUser(@PathVariable Long id) {
         userOperationService.recoverUser(id);
         return "redirect:/dashboard/users";
     }

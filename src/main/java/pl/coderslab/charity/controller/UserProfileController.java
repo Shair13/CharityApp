@@ -29,12 +29,10 @@ public class UserProfileController {
     private final UserRepository userRepository;
     private final SpringDataUserDetailsService springDataUserDetailsService;
     private final UserOperationService userOperationService;
-
     private final DonationRepository donationRepository;
 
-
     @GetMapping("/edit")
-    public String displayEditUserForm(Model model, Authentication authentication){
+    public String displayEditUserForm(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
         User user = userRepository.findByEmailAndIsDeleted(email, 0);
@@ -47,7 +45,7 @@ public class UserProfileController {
     }
 
     @PostMapping("/edit")
-    public String processEditUserForm(UserDTO userDTO){
+    public String processEditUserForm(UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(userDTO.getId());
         optionalUser.ifPresent(u -> {
             u.setEmail(userDTO.getEmail());
@@ -61,7 +59,7 @@ public class UserProfileController {
     }
 
     @GetMapping("password")
-    public String displayChangePasswordForm(Model model, Authentication authentication){
+    public String displayChangePasswordForm(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
         User user = userRepository.findByEmailAndIsDeleted(email, 0);
@@ -72,9 +70,9 @@ public class UserProfileController {
     }
 
     @PostMapping("password")
-    public String processChangePassForm(UserDTO userDTO, @RequestParam String password2){
+    public String processChangePassForm(UserDTO userDTO, @RequestParam String password2) {
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-           userOperationService.updatePassword(userDTO, password2);
+            userOperationService.updatePassword(userDTO, password2);
             return "redirect:/profile";
         }
         return "profile/change-password";
@@ -90,7 +88,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/donation/{id}")
-    public String donationDetails(Model model, @PathVariable Long id){
+    public String donationDetails(Model model, @PathVariable Long id) {
         Optional<Donation> optionalDonation = donationRepository.findById(id);
         optionalDonation.ifPresent(d -> model.addAttribute("donation", d));
         return "profile/donation";
@@ -107,7 +105,6 @@ public class UserProfileController {
         });
         return "redirect:/profile/donations";
     }
-
 
 
 }

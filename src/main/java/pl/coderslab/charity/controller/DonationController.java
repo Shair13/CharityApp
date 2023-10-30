@@ -24,7 +24,6 @@ public class DonationController {
     private final InstitutionRepository institutionRepository;
     private final UserRepository userRepository;
 
-
     @GetMapping("/donation")
     public String displayDonationForm(Model model) {
         model.addAttribute("donation", new Donation());
