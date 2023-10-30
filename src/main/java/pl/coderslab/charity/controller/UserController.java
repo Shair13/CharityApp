@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +15,12 @@ import pl.coderslab.charity.service.UserService;
 
 @Controller
 @RequestMapping("/dashboard")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserOperationService userOperationService;
     private final UserService userService;
 
-    public UserController(UserOperationService userOperationService1, UserService userService) {
-        this.userOperationService = userOperationService1;
-        this.userService = userService;
-    }
 
     @GetMapping("/user/add")
     public String displayAddUserForm(Model model) {

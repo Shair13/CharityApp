@@ -1,12 +1,15 @@
 package pl.coderslab.charity.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
+import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.EmailServiceImpl;
 import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
@@ -15,6 +18,7 @@ import java.util.UUID;
 
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 
     private final InstitutionRepository institutionRepository;
@@ -22,13 +26,7 @@ public class HomeController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
     private final UserOperationService userOperationService;
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserService userService, EmailServiceImpl emailService, UserOperationService userOperationService) {
-        this.institutionRepository = institutionRepository;
-        this.donationRepository = donationRepository;
-        this.userService = userService;
-        this.emailService = emailService;
-        this.userOperationService = userOperationService;
-    }
+    private final UserRepository userRepository;
 
     @GetMapping("/")
     public String homeAction(Model model){
@@ -63,4 +61,24 @@ public class HomeController {
         userOperationService.activateUser(uuid);
         return "redirect:/";
     }
+
+    @GetMapping("/reminder")
+    public String displayPasswordReminder(Model model) {
+        model.addAttribute("email", new UserDTO());
+        return "home/password-reminder";
+    }
+
+    @PostMapping("/reminder")
+    public String passwordReminder(UserDTO userDTO){
+        User user = userService.findByEmail(userDTO.getEmail());
+        UUID uuid = UUID.randomUUID();
+        user.setUuid(uuid);
+        userRepository.save(user);
+        String link = "http://localhost:8080/reminder/" + user.getUuid();
+        String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
+        emailService.sendSimpleMessage(userDTO.getEmail(), "Password remainder", emailText);
+        return "redirect:/";
+    }
+
+
 }

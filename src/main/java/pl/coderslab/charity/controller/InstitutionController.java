@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,13 +13,10 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/dashboard")
+@RequiredArgsConstructor
 public class InstitutionController {
 
     private final InstitutionRepository institutionRepository;
-
-    public InstitutionController(InstitutionRepository institutionRepository) {
-        this.institutionRepository = institutionRepository;
-    }
 
     @GetMapping("/institution/add")
     public String displayAddForm(Model model) {

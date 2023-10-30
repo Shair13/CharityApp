@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile")
+@RequiredArgsConstructor
 public class UserProfileController {
 
     private final UserRepository userRepository;
@@ -30,13 +32,6 @@ public class UserProfileController {
 
     private final DonationRepository donationRepository;
 
-
-    public UserProfileController(UserRepository userRepository, SpringDataUserDetailsService springDataUserDetailsService, UserOperationService userOperationService, DonationRepository donationRepository) {
-        this.userRepository = userRepository;
-        this.springDataUserDetailsService = springDataUserDetailsService;
-        this.userOperationService = userOperationService;
-        this.donationRepository = donationRepository;
-    }
 
     @GetMapping("/edit")
     public String displayEditUserForm(Model model, Authentication authentication){
