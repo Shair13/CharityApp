@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 
-<header th:replace="fragments/admin :: admin-header"></header>
+<header th:replace="~{fragments/admin :: admin-header}"></header>
+
 <section class="steps">
     <h2>Edytuj Użytkownika</h2>
     <form th:action="@{/dashboard/admin/edit}"  th:object="${userDTO}" method="POST">
@@ -26,7 +27,6 @@
         </div>
     </form>
 </section>
-
 
 </body>
 </html>

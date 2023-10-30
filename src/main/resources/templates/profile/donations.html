@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 
-<header th:replace="fragments/profile :: profile-header"></header>
+<header th:replace="~{fragments/profile :: profile-header}"></header>
+
 <section class="steps">
     <div class="form-group">
         <a th:href="@{/donation}" class="btn">Nowa donacja</a>
@@ -41,7 +42,6 @@
         </tbody>
     </table>
 </section>
-
 
 </body>
 </html>

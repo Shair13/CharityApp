@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 
-<header th:replace="fragments/profile :: profile-header"></header>
+<header th:replace="~{fragments/profile :: profile-header}"></header>
 <section class="steps">
     <table>
         <thead>
@@ -45,7 +45,6 @@
         </tbody>
     </table>
 </section>
-
 
 </body>
 </html>

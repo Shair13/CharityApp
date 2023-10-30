@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 
-<header th:replace="fragments/admin :: admin-header"></header>
+<header th:replace="~{fragments/admin :: admin-header}"></header>
 
 <section class="login-page">
     <h2>Dodaj Administratora</h2>
@@ -26,5 +26,6 @@
         </div>
     </form>
 </section>
+
 </body>
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 <header>
-    <nav th:replace="fragments/fragments :: navBar"></nav>
+    <nav th:replace="~{fragments/fragments :: navBar}"></nav>
 </header>
 
 <section class="login-page">
@@ -29,7 +29,7 @@
     </form>
 </section>
 
-<footer th:replace="fragments/fragments :: footer"></footer>
+<footer th:replace="~{fragments/fragments :: footer}"></footer>
 
 </body>
 </html>

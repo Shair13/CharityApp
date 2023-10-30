@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fragments :: head"></head>
+<head th:replace="~{fragments/fragments :: head}"></head>
 <body>
 
-<header th:replace="fragments/admin :: admin-header"></header>
+<header th:replace="~{fragments/admin :: admin-header}"></header>
 
 <section class="steps">
     <div class="form-group">
         <a th:href="@{/dashboard/admin/add}" class="btn">Dodaj Administratora</a>
     </div>
 </section>
+
 <section class="steps">
     <table>
         <thead>
@@ -39,7 +40,6 @@
         </tbody>
     </table>
 </section>
-
 
 </body>
 </html>
