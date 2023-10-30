@@ -15,16 +15,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(r -> r
-                        .requestMatchers("/", "/registration", "/resources/**", "/activation/**", "/reminder/**").permitAll()
+                        .requestMatchers("/", "/registration", "/resources/**", "/activation/**", "/reminder/**", "/forbidden").permitAll()
                         .requestMatchers("/donation", "/profile/**", "/confirmation").authenticated()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN"))
                 .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
-                .exceptionHandling(e -> e.accessDeniedPage("/403"));
+                .exceptionHandling(e -> e.accessDeniedPage("/forbidden"));
 
         return http.build();
     }
-//authentication success/failure handler
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
