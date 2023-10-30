@@ -13,6 +13,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/dashboard").setViewName("admin/dashboard");
         registry.addViewController("/profile").setViewName("profile/profile");
         registry.addViewController("/confirmation").setViewName("app/form-confirmation");
-        registry.addViewController("/403").setViewName("403");
+        registry.addViewController("/forbidden").setViewName("error/access-denied");
     }
 }

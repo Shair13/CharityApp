@@ -32,19 +32,19 @@ public class UserOperationService {
     }
 
     public void updatePassword(UserDTO userDTO, String password2) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found.")); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
     }
 
     public UserDTO getUserDTO(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found."));
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(),
                 user.getEnabled(), user.getRoles());
     }
 
     public void updateUserData(UserDTO userDTO){
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found."));
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setEnabled(userDTO.getEnabled());
