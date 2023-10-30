@@ -70,13 +70,16 @@ public class HomeController {
     @PostMapping("/reminder")
     public String passwordReminder(@RequestParam String email) {
         User user = userService.findByEmail(email);
-        UUID uuid = UUID.randomUUID();
-        user.setUuid(uuid);
-        userRepository.save(user);
-        String link = "http://localhost:8080/newpass/" + user.getUuid();
-        String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
-        emailService.sendSimpleMessage(email, "Password reminder", emailText);
-        return "redirect:/";
+        if (user != null) {
+            UUID uuid = UUID.randomUUID();
+            user.setUuid(uuid);
+            userRepository.save(user);
+            String link = "http://localhost:8080/newpass/" + user.getUuid();
+            String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
+            emailService.sendSimpleMessage(email, "Password reminder", emailText);
+            return "redirect:/";
+        }
+        return "error/user-not-found";
     }
 
     @GetMapping("/newpass/{uuid}")
