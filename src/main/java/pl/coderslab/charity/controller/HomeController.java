@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
-import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.EmailServiceImpl;
+import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
+
+import java.util.UUID;
 
 
 @Controller
@@ -17,10 +20,14 @@ public class HomeController {
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
     private final UserService userService;
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserService userService) {
+    private final EmailServiceImpl emailService;
+    private final UserOperationService userOperationService;
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserService userService, EmailServiceImpl emailService, UserOperationService userOperationService) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userService = userService;
+        this.emailService = emailService;
+        this.userOperationService = userOperationService;
     }
 
     @GetMapping("/")
@@ -42,7 +49,18 @@ public class HomeController {
         if(result.hasErrors() || !user.getPassword().equals(password2)){
             return "home/registration-form";
         }
+        UUID uuid = UUID.randomUUID();
+        user.setUuid(uuid);
         userService.saveUser(user, "USER");
+        String link = "http://localhost:8080/activation/" + user.getUuid();
+        String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
+        emailService.sendSimpleMessage(user.getEmail(), "Confirming Email", emailText);
+        return "redirect:/";
+    }
+
+    @GetMapping("/activation/{uuid}")
+    public String accountActivation(@PathVariable UUID uuid){
+        userOperationService.activateUser(uuid);
         return "redirect:/";
     }
 }
