@@ -14,6 +14,7 @@ import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.SpringDataUserDetailsService;
+import pl.coderslab.charity.service.UserOperationService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,15 +26,15 @@ public class UserProfileController {
 
     private final UserRepository userRepository;
     private final SpringDataUserDetailsService springDataUserDetailsService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserOperationService userOperationService;
 
     private final DonationRepository donationRepository;
 
 
-    public UserProfileController(UserRepository userRepository, SpringDataUserDetailsService springDataUserDetailsService, BCryptPasswordEncoder passwordEncoder, DonationRepository donationRepository) {
+    public UserProfileController(UserRepository userRepository, SpringDataUserDetailsService springDataUserDetailsService, UserOperationService userOperationService, DonationRepository donationRepository) {
         this.userRepository = userRepository;
         this.springDataUserDetailsService = springDataUserDetailsService;
-        this.passwordEncoder = passwordEncoder;
+        this.userOperationService = userOperationService;
         this.donationRepository = donationRepository;
     }
 
@@ -78,11 +79,7 @@ public class UserProfileController {
     @PostMapping("password")
     public String processChangePassForm(UserDTO userDTO, @RequestParam String password2){
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-            Optional<User> optionalUser = userRepository.findById(userDTO.getId());
-            optionalUser.ifPresent(u -> {
-                u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-                userRepository.save(u);
-            });
+           userOperationService.updatePassword(userDTO, password2);
             return "redirect:/profile";
         }
         return "profile/change-password";

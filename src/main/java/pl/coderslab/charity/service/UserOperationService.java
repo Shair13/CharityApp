@@ -1,6 +1,8 @@
 package pl.coderslab.charity.service;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,14 @@ public class UserOperationService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final SpringDataUserDetailsService springDataUserDetailsService;
 
 
-    public UserOperationService(RoleRepository roleRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserOperationService(RoleRepository roleRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, SpringDataUserDetailsService springDataUserDetailsService) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.springDataUserDetailsService = springDataUserDetailsService;
     }
 
     public List<User> findUserByRole(String roleName) {
@@ -51,6 +55,12 @@ public class UserOperationService {
         user.setEnabled(userDTO.getEnabled());
         user.setRoles(userDTO.getRoles());
         userRepository.save(user);
+    }
+
+    public void refreshSession(UserDTO userDTO){
+        UserDetails updatedUserDetails = springDataUserDetailsService.loadUserByUsername(userDTO.getEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     public void blockUser(Long userId){

@@ -8,6 +8,7 @@
     <h2>Edytuj Twoje Dane</h2>
     <form th:action="@{/profile/edit}"  th:object="${userDTO}" method="POST">
         <input type="hidden" th:field="*{id}" name="id"/>
+        <input type="hidden" th:field="*{enabled}" name="enabled"/>
         <div class="form-group">
             <input type="text" th:field="*{firstName}" name="firstName" placeholder="Imię" />
         </div>
