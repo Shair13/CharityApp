@@ -1,5 +1,6 @@
 package pl.coderslab.charity.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
@@ -17,19 +19,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserOperationService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final SpringDataUserDetailsService springDataUserDetailsService;
-
-
-    public UserOperationService(RoleRepository roleRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, SpringDataUserDetailsService springDataUserDetailsService) {
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.springDataUserDetailsService = springDataUserDetailsService;
-    }
 
     public List<User> findUserByRole(String roleName) {
         Role role = roleRepository.findByName(roleName);
@@ -37,19 +32,19 @@ public class UserOperationService {
     }
 
     public void updatePassword(UserDTO userDTO, String password2) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
     }
 
     public UserDTO getUserDTO(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(),
                 user.getEnabled(), user.getRoles());
     }
 
     public void updateUserData(UserDTO userDTO){
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new);
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setEnabled(userDTO.getEnabled());
