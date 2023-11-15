@@ -8,11 +8,11 @@ This is an application for managing charity donations. It allows you to easily p
 ![Home Page](images/home_page.png)
 
 This is the initial page that anyone can access.
-By scrolling down you can check how many bags and donations has been given to foundations, how the process works and you can decide to register.
+By scrolling down you can check how many bags and donations have been given to foundations, how the process works and you can decide to register.
 
 ![Bags Counter](images/counter.png)
 
-You can also check foundations which whom we are working with.
+You can also check foundations we are working with.
 
 ![Foundations](images/fundations.png)
 
@@ -22,11 +22,11 @@ At the end of the home page, you can find a form to contact us. Feel free to ask
 
 ![Contact Form Succes Page](images/page_contact_success.png)
 
-When we receive an email, we will reply as fast as it is possible!
+After we receive an email, we will reply as fast as possible!
 
 # Registration
 
-Now that you've decided to register and help someone, you can easily do it using the registration form:
+Now that you've decided to register and help someone, you can easily do it by using the registration form:
 
 ![Registration Form](images/form_registration.png)
 
@@ -56,7 +56,7 @@ If both the email and password are correct, you will be redirected to the home p
 
 But what do you do if you forget your password?
 
-# Forgotten Password
+# Lost Password
 
 What if you forgot your password? No worries, we've got you covered!
 Simply go to the password reminder section on the login page. You'll be redirected to the password reminder form, where you only need to provide your email.
@@ -71,7 +71,7 @@ Next, click on the provided link.
 
 ![New Password Email](images/email_new_password.png)
 
-After that, you'll be redirected to the change password form.
+After that, you'll be redirected to the update password form.
 
 ![Change Password Form](images/form_new_password.png)
 
@@ -85,7 +85,7 @@ If everything goes correctly, you will receive a confirmation.
 
 __Now when you are logged in you can easily go through the donation 4 steps form.__
 
-1. Choosing categories of your items:
+1. Categories of your items:
 
 ![Step 1](images/step_1.png)
 
@@ -93,7 +93,7 @@ __Now when you are logged in you can easily go through the donation 4 steps form
 
 ![Step 2](images/step_2.png)
 
-3. Choosing foundation you want to support:
+3. Foundation you want to support:
 
 ![Step 3](images/step_3.png)
 
@@ -109,20 +109,20 @@ After confirmation you will be redirected to success page:
 
 ![Success Page Donation](images/page_success_donation.png)
 
-and also you will receive an email confirming that everything went correctly.
+and also you will receive an email confirming that everything went right.
 
 ![Email Donation Confirmation](images/email_donation_conformation.png)
 
 # User Profile
 
-As an user, you can change your name, email, and password.
+As a user, you can change your name, email, and password.
 
 ![User Change Name](images/user_change_name.png)
 
 ![User Change Password](images/user_change_password.png)
 
 You also have access to your donations. 
-We would be very grateful if you could mark the parcel as "picked up" by the courier in our application after the courier has collected it.
+We would be very grateful if you marked the parcel as "picked up" in our application after the courier has collected it.
 This will make the whole process more efficient :)
 
 ![User Donations](images/user_donations.png)
@@ -141,7 +141,7 @@ You have the ability to edit or remove an institution.
 ![Admin Institutions](images/admin_institutions.png)
 
 ## Users
-You can block/unblock and delete/revive (soft delete) users. Blocked users will not be able to log in to their accounts. Admins can also modify all user data, such as name, email, password, or account permissions.
+You can block/unblock and delete/revive (soft delete) users. Blocked users will not be able to log in to their accounts. Admins can also modify all user data such as name, email, password, or account permissions.
 
 ![Admin Users](images/admin_users.png)
 
