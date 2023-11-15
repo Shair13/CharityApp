@@ -1,10 +1,14 @@
+# Charity App - Good deeds without leaving home!
 
-Przed przystąpieniem do pracy  przeczytaj poniższe wskazówki.
-## Jak zacząć?
+# Description
 
-1. Zaimportuj projekt jako projekt `Maven`, wg poniższych wskazówek:
+This is an application for managing charity donations. It allows you to easily pass on unwanted items to people in need. As an admin, you can also manage institutions, donations, users, and other admins.
 
-	* W `IntelliJ` wybieramy: `File –> New –> Project from Existing Sources...`
-	* Wskazujemy lokalizację katalogu ze sklonowanym projektem i zatwierdzamy.
-	* Następnie w nowym oknie wybieramy: `Import project from external model` i wskazujemy `Maven`
-	* Wybieramy kolejno opcje: `Next –> Next –> Next –> Finish`
+### Home page
+
+![home-page](images/home_page.png)
+
+This is the initial page that anyone can access.
+
+
+
