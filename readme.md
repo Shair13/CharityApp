@@ -7,22 +7,22 @@ This is an application for managing charity donations. It allows you to easily p
 
 ![home-page](images/home_page.png)
 
-This is the initial page that anyone can access.
-By scrolling down you can check how many bags and donations has been given to foundations, how the process works and you can decide to register.
+### This is the initial page that anyone can access.
+### By scrolling down you can check how many bags and donations has been given to foundations, how the process works and you can decide to register.
 
 ![home-page](images/counter.png)
 
-you can also check foundations which whom we are working with.
+### you can also check foundations which whom we are working with.
 
 ![home-page](images/fundations.png)
 
-At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
+### At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
 
 ![home-page](images/form_contact.png)
 
 ![home-page](images/page_contact_success.png)
 
-When we receive an email, we will reply as fast as it is possible!
+### When we receive an email, we will reply as fast as it is possible!
 
 # Donations
 
@@ -46,15 +46,15 @@ When we receive an email, we will reply as fast as it is possible!
 
 ![home-page](images/step_4.png)
 
-finally you need to confirm the entered data:
+### finally you need to confirm the entered data:
 
 ![home-page](images/step_confirmation.png)
 
-after confirmation you will be redirected to success page:
+### after confirmation you will be redirected to success page:
 
 ![home-page](images/page_success_donation.png)
 
-and also you will receive an email confirming that everything went correctly.
+### and also you will receive an email confirming that everything went correctly.
 
 ![home-page](images/email_donation_confirmation.png)
 
