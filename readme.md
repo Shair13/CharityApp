@@ -12,7 +12,7 @@ By scrolling down you can check how many bags and donations has been given to fo
 
 ![Bags Counter](images/counter.png)
 
-you can also check foundations which whom we are working with.
+You can also check foundations which whom we are working with.
 
 ![Foundations](images/fundations.png)
 
@@ -85,27 +85,27 @@ If everything goes correctly, you will receive a confirmation.
 
 __Now when you are logged in you can easily go through the donation 4 steps form.__
 
-1. choosing categories of your items:
+1. Choosing categories of your items:
 
 ![Step 1](images/step_1.png)
 
-2. number of bags you want to give:
+2. Number of bags you want to give:
 
 ![Step 2](images/step_2.png)
 
-3. choosing foundation you want to support:
+3. Choosing foundation you want to support:
 
 ![Step 3](images/step_3.png)
 
-4. parcel collection details:
+4. Parcel collection details:
 
 ![Step 4](images/step_4.png)
 
-finally you need to confirm the entered data:
+Finally you need to confirm the entered data:
 
 ![Summary](images/step_confirmation.png)
 
-after confirmation you will be redirected to success page:
+After confirmation you will be redirected to success page:
 
 ![Success Page Donation](images/page_success_donation.png)
 
@@ -122,12 +122,12 @@ As an user, you can change your name, email, and password.
 ![User Change Password](images/user_change_password.png)
 
 You also have access to your donations. 
-We would be very grateful if you could mark the parcel as picked up by the courier in our application after the courier has collected it.
+We would be very grateful if you could mark the parcel as "picked up" by the courier in our application after the courier has collected it.
 This will make the whole process more efficient :)
 
 ![User Donations](images/user_donations.png)
 
-You can review the details of your donations, even after they have been marked as taken.
+You can review the details of your donations, even after they have been marked as "picked up".
 
 ![User Donation Details](images/user_donation_details.png)
 
