@@ -1,4 +1,4 @@
-# Charity App - Good deeds without leaving home!
+![obraz](https://github.com/Shair13/CharityApp/assets/125362896/fc5e07f9-e1ad-419b-9627-ade89a4eb86d)# Charity App - Good deeds without leaving home!
 
 
 ## Description
@@ -24,6 +24,53 @@ At the end of the home page, you can find a form to contact us. Feel free to ask
 ![home-page](images/page_contact_success.png)
 
 When we receive an email, we will reply as fast as it is possible!
+
+### Donations
+
+![home-page](images/donations_home.png)
+
+Now when you are logged in you can easily go through the donation 4 steps form.
+
+first step (choosing categories of your items):
+
+![home-page](images/step_1.png)
+
+second step (number of bags you want to give):
+
+![home-page](images/step_2.png)
+
+third step (choosing foundarion you want to support):
+
+![home-page](images/step_3.png)
+
+fourth step (parcel collection details):
+
+![home-page](images/step_4.png)
+
+finally you need to confirm the entered data:
+
+![home-page](images/step_confirmation.png)
+
+after confirmation you will be redirected to success page:
+
+![home-page](images/page_success_donation.png)
+
+and also you will receive an email confirming that everything went correctly.
+
+![home-page](images/email_donation_confirmation.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
