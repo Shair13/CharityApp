@@ -14,6 +14,7 @@ import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
 import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.EmailServiceImpl;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class DonationController {
     private final CategoryRepository categoryRepository;
     private final InstitutionRepository institutionRepository;
     private final UserRepository userRepository;
+    private final EmailServiceImpl emailService;
 
     @GetMapping("/donation")
     public String displayDonationForm(Model model) {
@@ -33,7 +35,7 @@ public class DonationController {
     }
 
     @PostMapping("/donation")
-    public String processDonationForm(Donation donation, BindingResult result, Authentication authentication) {
+    public String processDonationForm(Donation donation, BindingResult result, Authentication authentication, Model model) {
         if (result.hasErrors()) {
             return "app/form";
         }
@@ -42,7 +44,11 @@ public class DonationController {
         User user = userRepository.findByEmailAndIsDeleted(email, 0);
         donation.setUser(user);
         donationRepository.save(donation);
-        return "redirect:/";
+        String emailText = "Cześć " + user.getFirstName() + ", właśnie otrzymaliśmy od Ciebie zlecenie odbioru worków z darami na fundację "+ donation.getInstitution().getName() +".\nIlość worków: "+ donation.getQuantity() +"\nAdres pod jakim należy przygotować worki to: " + donation.getStreet() + ", " + donation.getZipCode() + " " + donation.getCity() + ".\nBędziemy się z Państwem kontaktować pod numerem telefonu: " + donation.getPhone() + ".\n\nSerdecznie pozdrawiamy\nZespół CharityApp";
+        emailService.sendSimpleMessage(user.getEmail(), "Message from customer", emailText);
+        String successMessage = "Dziękujemy za przesłanie formularza. Na maila " + user.getEmail() + " prześlemy wszelkie informacje o odbiorze.";
+        model.addAttribute("message", successMessage);
+        return "home/success-page";
     }
 
 

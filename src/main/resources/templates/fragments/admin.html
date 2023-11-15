@@ -13,7 +13,7 @@
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a th:href="@{/dashboard}">Panel Admina</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a th:href="@{/profile/donations}">Moje zbiórki</a></li>
                     <li><a th:href="@{/donation}">Nowa zbiórka</a></li>
                     <li>
                         <form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/logout}"
