@@ -145,49 +145,22 @@ You can block/unblock and delete/revive (soft delete) users. Blocked users will 
 
 ![Admin Users](images/admin_users.png)
 
+![Admin Users](images/edit_user.png)
+
 ## Admins
 First and foremost, you cannot delete yourself - it's for your safety. However, you can delete and revive other admins.
 
 ![Admin Admins](images/admin_admins.png)
 
+![Admin Users](images/edit_admin.png)
 
+# Conclusion
 
+Thank you for exploring Charity App! I hope this platform makes a positive impact in the world by facilitating easy and effective charitable donations. Your contributions matter, and together, we can make a difference! :)
 
+# Contact
 
+If you have any questions, feedback, or issues, feel free to reach out to me:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Email: cezary.wozakowski@gmail.com
 
