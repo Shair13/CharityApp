@@ -28,21 +28,21 @@ When we receive an email, we will reply as fast as it is possible!
 
 ![home-page](images/donations_home.png)
 
-### Now when you are logged in you can easily go through the donation 4 steps form.
+## Now when you are logged in you can easily go through the donation 4 steps form.
 
-first step (choosing categories of your items):
+### 1. choosing categories of your items:
 
 ![home-page](images/step_1.png)
 
-second step (number of bags you want to give):
+### 2. number of bags you want to give:
 
 ![home-page](images/step_2.png)
 
-third step (choosing foundarion you want to support):
+### 3. choosing foundarion you want to support:
 
 ![home-page](images/step_3.png)
 
-fourth step (parcel collection details):
+### 4. parcel collection details:
 
 ![home-page](images/step_4.png)
 
