@@ -52,6 +52,8 @@ Once you have successfully registered on our page, you can log in to your accoun
 
 If both the email and password are correct, you will be redirected to the home page, and you will gain access to your account in the top right corner.
 
+![User Panel](images/panel_user.png)
+
 But what do you do if you forget your password?
 
 # Forgotten Password
