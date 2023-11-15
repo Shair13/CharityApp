@@ -1,10 +1,10 @@
 ![obraz](https://github.com/Shair13/CharityApp/assets/125362896/fc5e07f9-e1ad-419b-9627-ade89a4eb86d)# Charity App - Good deeds without leaving home!
 
 
-## Description
+# Description
 This is an application for managing charity donations. It allows you to easily pass on unwanted items to people in need. As an admin, you can also manage institutions, donations, users, and other admins.
 
-### Home page
+## Home page
 
 ![home-page](images/home_page.png)
 
