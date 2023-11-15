@@ -24,13 +24,13 @@ At the end of the home page, you can find a form to contact us. Feel free to ask
 
 When we receive an email, we will reply as fast as it is possible!
 
-### Donations
+## Donations
 
 ![home-page](images/donations_home.png)
 
-Now when you are logged in you can easily go through the donation 4 steps form.
+### Now when you are logged in you can easily go through the donation 4 steps form.
 
-first step (choosing categories of your items):
+#### first step (choosing categories of your items):
 
 ![home-page](images/step_1.png)
 
