@@ -1,4 +1,4 @@
-![obraz](https://github.com/Shair13/CharityApp/assets/125362896/fc5e07f9-e1ad-419b-9627-ade89a4eb86d)# Charity App - Good deeds without leaving home!
+# Charity App - Good deeds without leaving home!
 
 
 # Description
