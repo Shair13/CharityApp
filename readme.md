@@ -38,7 +38,7 @@ __Now when you are logged in you can easily go through the donation 4 steps form
 
 ![home-page](images/step_2.png)
 
-3. choosing foundarion you want to support:
+3. choosing foundation you want to support:
 
 ![home-page](images/step_3.png)
 
@@ -56,7 +56,7 @@ after confirmation you will be redirected to success page:
 
 and also you will receive an email confirming that everything went correctly.
 
-![home-page](images/email_donation_confirmation.png)
+![home-page](images/email_donation_conformation.png)
 
 
 
