@@ -51,8 +51,8 @@ public class HomeController {
         user.setUuid(uuid);
         userService.saveUser(user, "USER");
         String link = "http://localhost:8080/activation/" + user.getUuid();
-        String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
-        emailService.sendSimpleMessage(user.getEmail(), "Confirming Email", emailText);
+        String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do Twojego konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
+        emailService.sendSimpleMessage(user.getEmail(), "Account confirmation", emailText);
         return "redirect:/";
     }
 
@@ -76,7 +76,7 @@ public class HomeController {
             userRepository.save(user);
             String link = "http://localhost:8080/newpass/" + user.getUuid();
             String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
-            emailService.sendSimpleMessage(email, "Password reminder", emailText);
+            emailService.sendSimpleMessage(email, "Reset password", emailText);
             return "redirect:/";
         }
         return "error/user-not-found";
@@ -94,6 +94,4 @@ public class HomeController {
         userOperationService.updatePassword(userDTO, password2);
         return "redirect:/";
     }
-
-
 }
