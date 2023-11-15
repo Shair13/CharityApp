@@ -5,58 +5,87 @@ This is an application for managing charity donations. It allows you to easily p
 
 # Home page
 
-![home-page](images/home_page.png)
+![Home Page](images/home_page.png)
 
 This is the initial page that anyone can access.
 By scrolling down you can check how many bags and donations has been given to foundations, how the process works and you can decide to register.
 
-![home-page](images/counter.png)
+![Bags Counter](images/counter.png)
 
 you can also check foundations which whom we are working with.
 
-![home-page](images/fundations.png)
+![Foundations](images/fundations.png)
 
 At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
 
-![home-page](images/form_contact.png)
+![Contact Form](images/form_contact.png)
 
-![home-page](images/page_contact_success.png)
+![Contact Form Succes Page](images/page_contact_success.png)
 
 When we receive an email, we will reply as fast as it is possible!
 
 # Donations
 
-![home-page](images/donations_home.png)
+![Donations Page](images/donations_home.png)
 
 __Now when you are logged in you can easily go through the donation 4 steps form.__
 
 1. choosing categories of your items:
 
-![home-page](images/step_1.png)
+![Step 1](images/step_1.png)
 
 2. number of bags you want to give:
 
-![home-page](images/step_2.png)
+![Step 2](images/step_2.png)
 
 3. choosing foundation you want to support:
 
-![home-page](images/step_3.png)
+![Step 3](images/step_3.png)
 
 4. parcel collection details:
 
-![home-page](images/step_4.png)
+![Step 4](images/step_4.png)
 
 finally you need to confirm the entered data:
 
-![home-page](images/step_confirmation.png)
+![Summary](images/step_confirmation.png)
 
 after confirmation you will be redirected to success page:
 
-![home-page](images/page_success_donation.png)
+![Success Page Donation](images/page_success_donation.png)
 
 and also you will receive an email confirming that everything went correctly.
 
-![home-page](images/email_donation_conformation.png)
+![Email Donation Confirmation](images/email_donation_conformation.png)
+
+# User Profile
+
+As a user, you can change your name, email, and password.
+
+![User Change Name](images/user_change_name.png)
+
+![User Change Password](images/user_change_password.png)
+
+You also have access to your donations. 
+We would be very grateful if you could mark the parcel as picked up by the courier in our application after the courier has collected it.
+This will make the whole process more efficient :)
+
+![User Donations](images/user_donations.png)
+
+You can review the details of your donations, even after they have been marked as taken.
+
+![User Donation Details](images/user_donation_details.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
