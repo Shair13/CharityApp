@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
+import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
@@ -24,6 +25,7 @@ public class AdminController {
 
     private final UserOperationService userOperationService;
     private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @GetMapping("/admin/add")
     public String displayAddAdminForm(Model model) {
@@ -49,6 +51,7 @@ public class AdminController {
     @GetMapping("/admin/edit/{id}")
     public String displayEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("userDTO", userOperationService.getUserDTO(id));
+        model.addAttribute("roles", roleRepository.findAll());
         return "admin/admin-edit-form";
     }
 

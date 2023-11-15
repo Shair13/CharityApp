@@ -15,11 +15,32 @@
         <div class="form-group">
             <input th:field="*{email}" name="email" placeholder="Email">
         </div>
-        <div class="form-group">
-            <input th:field="*{enabled}" name="enabled" placeholder="Konto aktywne">
+        <div class="form-group form-group--checkbox">
+            <h3>Aktywność konta:</h3>
+            <label class="center-flex">
+                <input type="radio" name="enabled" th:field="*{enabled}" th:value="1"/>
+                <span class="checkbox radio"></span>
+                <span class="description">
+                        <div class="title">Konto aktywne</div>
+                        </span>
+            </label>
+            <label class="center-flex">
+                <input type="radio" name="enabled" th:field="*{enabled}" th:value="0"/>
+                <span class="checkbox radio"></span>
+                <span class="description">
+                        <div class="title">Konto nieaktywne</div>
+                        </span>
+            </label>
         </div>
-        <div class="form-group">
-            <input th:field="*{roles}" name="roles" placeholder="Uprawnienia">
+        <div class="form-group form-group--checkbox"> <h3>Uprawnienia:</h3></div>
+        <div class="form-group form-group--checkbox" th:each="role : ${roles}">
+            <label class="center-flex">
+                <input type="radio" name="roles" th:field="*{roles}" th:value="${role.id}" required/>
+                <span class="checkbox radio"></span>
+                <span class="description">
+                        <div class="title" th:text="${role.name}"></div>
+                        </span>
+            </label>
         </div>
         <div class="form-group">
             <button class="btn" type="submit">Aktualizuj</button>

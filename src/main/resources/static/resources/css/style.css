@@ -1871,6 +1871,10 @@ tr, td {
 .center{
   text-align: center;
 }
+.center-flex{
+  justify-content: center; /* Wyśrodkowanie w poziomie */
+  align-items: center; /* Wyśrodkowanie w pionie */
+}
 
 
 
