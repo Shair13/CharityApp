@@ -28,7 +28,7 @@ When we receive an email, we will reply as fast as it is possible!
 
 ![home-page](images/donations_home.png)
 
-## Now when you are logged in you can easily go through the donation 4 steps form.
+__Now when you are logged in you can easily go through the donation 4 steps form.__
 
 1. choosing categories of your items:
 
