@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: head"></head>
+<body>
+
+<header th:replace="fragments/admin :: admin-header"></header>
+
+<section class="steps">
+    <h2>Edytuj instytucję</h2>
+    <form th:action="@{/dashboard/institution/edit}" th:object="${institution}" method="POST">
+        <input type="hidden" th:field="*{id}" name="id"/>
+        <div class="form-group">
+            <input type="text" th:field="*{name}" name="name" placeholder="Nazwa"/>
+        </div>
+        <div class="form-group">
+            <textarea th:field="*{description}" name="description" placeholder="Opis"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn" type="submit">Aktualizuj</button>
+            <a th:href="@{/dashboard/institutions}" class="btn">Cofnij</a>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}"></head>
+<body>
+
+<header th:replace="~{fragments/admin :: admin-header}"></header>
+
+<section class="steps">
+    <div class="form-group">
+        <a th:href="@{/dashboard/user/add}" class="btn">Dodaj Użytkownika</a>
+    </div>
+</section>
+<section class="steps">
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imię</th>
+            <th>Email</th>
+            <th>Ważność konta</th>
+            <th>Akcje</th>
+            <th>Blokowanie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" th:classappend="${user.isDeleted == 1} ? 'deleted' : ''">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.enabled}"></td>
+            <td th:if="${user.isDeleted == 0}">
+                <a th:href="@{/dashboard/user/edit/{id}(id=${user.id})}" class="btn">Edytuj</a>
+                <a th:href="@{/dashboard/user/delete/{id}(id=${user.id})}" class="btn">Usuń</a>
+                <a th:href="@{/dashboard/user/password/{id}(id=${user.id})}" class="btn">Zmień hasło</a>
+            </td>
+            <td th:if="${user.isDeleted == 1}">
+                <a th:href="@{/dashboard/user/recover/{id}(id=${user.id})}" class="btn">Przywróć</a>
+            </td>
+            <td th:if="${user.enabled == 1 && user.isDeleted == 0}">
+                <a th:href="@{/dashboard/user/block/{id}(id=${user.id})}" class="btn btn-red">Blokuj</a>
+            </td>
+            <td th:if="${user.enabled == 0 && user.isDeleted == 0}">
+                <a th:href="@{/dashboard/user/unblock/{id}(id=${user.id})}" class="btn btn-green">Odblokuj</a>
+            </td>
+            <td th:if="${user.isDeleted == 1}">
+                ---
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>

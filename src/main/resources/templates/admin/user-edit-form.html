@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}"></head>
+<body>
+
+<header th:replace="~{fragments/admin :: admin-header}"></header>
+
+<section class="steps">
+    <h2>Edytuj Użytkownika</h2>
+    <form th:action="@{/dashboard/user/edit}"  th:object="${userDTO}" method="POST">
+        <input type="hidden" th:field="*{id}" name="id"/>
+        <div class="form-group">
+            <input type="text" th:field="*{firstName}" name="firstName" placeholder="Imię" />
+        </div>
+        <div class="form-group">
+            <input th:field="*{email}" name="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <input th:field="*{enabled}" name="enabled" placeholder="Konto aktywne">
+        </div>
+        <div class="form-group">
+            <input th:field="*{roles}" name="roles" placeholder="Uprawnienia">
+        </div>
+        <div class="form-group">
+            <button class="btn" type="submit">Aktualizuj</button>
+            <a th:href="@{/dashboard/users}" class="btn">Cofnij</a>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

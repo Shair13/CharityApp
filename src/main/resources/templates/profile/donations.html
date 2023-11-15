@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}"></head>
+<body>
+
+<header th:replace="~{fragments/profile :: profile-header}"></header>
+
+<section class="steps">
+    <div class="form-group">
+        <a th:href="@{/donation}" class="btn">Nowa donacja</a>
+    </div>
+</section>
+<section class="steps">
+    <table th:if="${donations.size() > 0}">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Instytucja</th>
+            <th>Data odbioru</th>
+            <th>Ilość worków</th>
+            <th>Akcje</th>
+            <th>Archiwizacja</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="donation : ${donations}" th:classappend="${donation.archived == 1} ? 'archived' : ''">
+            <td th:text="${donation.id}"></td>
+            <td th:text="${donation.institution.name}"></td>
+            <td th:text="${donation.pickUpDate}"></td>
+            <td th:text="${donation.quantity}"></td>
+            <td>
+                <a th:href="@{/profile/donation/{id}(id=${donation.id})}" class="btn">Szczegóły</a>
+            </td>
+            <td th:if="${donation.archived == 0}">
+                <a th:href="@{/profile/archive/{id}(id=${donation.id})}" class="btn">Zgłoś odbiór paczki</a>
+            </td>
+            <td th:if="${donation.archived == 1}">
+                <h4 th:text="'Odebrano dnia ' + ${donation.realPickUpDate}"></h4>
+                <h5 th:text="'o godzinie ' + ${donation.realPickUpTime}"></h5>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>
