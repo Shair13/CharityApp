@@ -16,7 +16,7 @@ You can also check foundations we are working with.
 
 ![Foundations](images/fundations.png)
 
-At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
+At the end of the home page, you can find a form to contact feed. Feel free to ask any questions if you are not sure about creating an account.
 
 ![Contact Form](images/form_contact.png)
 
@@ -160,7 +160,7 @@ Thank you for exploring Charity App! We hope this platform makes a positive impa
 
 # Contact
 
-If you have any questions, feedback, or issues, feel free to reach out to me:
+If you have any questions, feedback or issues, feel free to reach out to me:
 
 - Email: cezary.wozakowski@gmail.com
 
