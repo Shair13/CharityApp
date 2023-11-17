@@ -16,7 +16,7 @@ You can also check foundations we are working with.
 
 ![Foundations](images/fundations.png)
 
-At the end of the home page, you can find a form to contact feed. Feel free to ask any questions if you are not sure about creating an account.
+At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
 
 ![Contact Form](images/form_contact.png)
 
