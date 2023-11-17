@@ -63,7 +63,7 @@ Simply go to the password reminder section on the login page. You'll be redirect
 
 ![Password Reminder Form](images/form_remind_password.png)
 
-Upon entering the correct email, you'll receive information that we've sent you an email with a link to reset your password.
+Upon entering the correct email, you'll receive information that we've sent you a link to reset your password.
 
 ![Change Password Page](images/page_change_password.png)
 
@@ -156,7 +156,7 @@ First and foremost, you cannot delete yourself - it's for your safety. However, 
 
 # Conclusion
 
-Thank you for exploring Charity App! I hope this platform makes a positive impact in the world by facilitating easy and effective charitable donations. Your contributions matter, and together, we can make a difference! :)
+Thank you for exploring Charity App! We hope this platform makes a positive impact in the world by facilitating easy and effective charitable donations. Your contributions matter, and together, we can make a difference! :)
 
 # Contact
 
