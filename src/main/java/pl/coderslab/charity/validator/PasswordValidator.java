@@ -10,22 +10,8 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
 
-        if(!Pattern.compile("[A-Za-z0-9]{8,32}").matcher(s).matches()){
-            return false;
-        }
-        if (!Pattern.compile("[a-z]+").matcher(s).find()) {
-            return false;
-        }
-        if (!Pattern.compile("[A-Z]+").matcher(s).find()) {
-            return false;
-        }
-        if (!Pattern.compile("[0-9]+").matcher(s).find()) {
-            return false;
-        }
-        if (!Pattern.compile("[\\W_]+").matcher(s).find()) {
-            return false;
-        }
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[A-Za-z0-9\\W_]{8,32}$";
 
-        return true;
+        return Pattern.matches(regex, s);
     }
 }

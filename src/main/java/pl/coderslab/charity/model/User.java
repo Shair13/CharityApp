@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 import pl.coderslab.charity.validator.Password;
 
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Validated
 public class User {
 
     @Id
@@ -31,7 +33,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Password
+    @Password(message = "Invalid password")
     private String password;
 
     private int enabled;

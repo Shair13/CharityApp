@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class HomeController {
     }
 
     @PostMapping("/registration")
-    public String processRegistrationForm(User user, BindingResult result, @RequestParam String password2, Model model) {
+    public String processRegistrationForm(@Valid User user, BindingResult result, @RequestParam String password2, Model model) {
         if (result.hasErrors() || !user.getPassword().equals(password2)) {
             return "home/registration-form";
         }
