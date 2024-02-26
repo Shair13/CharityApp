@@ -30,6 +30,11 @@ Now that you've decided to register and help someone, you can easily do it by us
 
 ![Registration Form](images/form_registration.png)
 
+If you input an invalid password (it must contain at least one lowercase letter, one uppercase letter, one digit, and one special character, with a length between 8 and 32 characters), 
+you will receive information guiding you on what you did wrong.
+
+![Password validator](images/password-validator.png)
+
 After your registration, you will receive a success confirmation:
 
 ![Success Registration Page](images/page_activation_info.png)
