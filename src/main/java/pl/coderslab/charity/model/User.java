@@ -33,7 +33,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Password(message = "Invalid password")
+    @Password
     private String password;
 
     private int enabled;
