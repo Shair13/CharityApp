@@ -3,6 +3,16 @@
 # Description
 This is an application for managing charity donations. It allows you to easily pass on unwanted items to people in need. As an admin, you can also manage institutions, donations, users, and other admins.
 
+### To build
+
+<pre>mvn package</pre>
+
+### To run
+
+<pre>java -jar ./charity-0.0.1-SNAPSHOT.jar</pre>
+
+### The aplication will run on http://localhost:8080 
+
 # Home page
 
 ![Home Page](images/home_page.png)
