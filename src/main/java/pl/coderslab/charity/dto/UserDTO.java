@@ -22,5 +22,4 @@ public class UserDTO {
     private String password;
     private int enabled;
     private Set<Role> roles;
-
 }
