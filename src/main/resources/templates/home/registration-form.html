@@ -10,11 +10,11 @@
     <h2>Załóż konto</h2>
     <form th:object="${user}" th:action="@{/registration}" method="POST">
         <div class="form-group center">
-            <input type="text" name="firstName" placeholder="Imię" />
+            <input type="text" name="firstName" placeholder="Imię" th:value="${user.firstName}"/>
             <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
         </div>
         <div class="form-group center">
-            <input type="email" name="email" placeholder="Email" />
+            <input type="email" name="email" placeholder="Email" th:value="${user.email}"/>
             <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
         <div class="form-group center">
