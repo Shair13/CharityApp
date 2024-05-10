@@ -84,7 +84,7 @@ public class HomeController {
     @PostMapping("/newpass")
     public String processNewPasswordForm(UserDTO userDTO, @RequestParam String password2, Model model) {
         if (accountService.comparePasswords(userDTO.getPassword(), password2)) {
-            accountService.updatePassword(userDTO, password2);
+            accountService.updatePassword(userDTO);
             String message = "Hasło zostało zmienione! :)";
             model.addAttribute("message", message);
             return "home/success-page";

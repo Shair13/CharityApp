@@ -73,7 +73,7 @@ public class AdminController {
             return "admin/admin-change-password";
         }
 
-        accountService.updatePassword(userDTO, password2);
+        accountService.updatePassword(userDTO);
         return "redirect:/dashboard/admins";
     }
 

@@ -3,6 +3,7 @@ package pl.coderslab.charity.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmailAndIsDeleted(email, 0);
+        return userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
     }
 
     @Override

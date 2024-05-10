@@ -49,7 +49,7 @@ public class AccountService {
         model.addAttribute("message", message);
     }
 
-    public void updatePassword(UserDTO userDTO, String password2) {
+    public void updatePassword(UserDTO userDTO) {
         User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found.")); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);

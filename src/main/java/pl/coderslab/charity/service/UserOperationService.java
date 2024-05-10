@@ -21,6 +21,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserOperationService {
+
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final SpringDataUserDetailsService springDataUserDetailsService;

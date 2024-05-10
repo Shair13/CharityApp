@@ -74,7 +74,7 @@ public class UserProfileController {
     @PostMapping("password")
     public String processChangePassForm(UserDTO userDTO, @RequestParam String password2) {
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-            accountService.updatePassword(userDTO, password2);
+            accountService.updatePassword(userDTO);
             return "redirect:/profile";
         }
         return "profile/change-password";
