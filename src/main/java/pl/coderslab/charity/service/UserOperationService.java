@@ -32,17 +32,17 @@ public class UserOperationService {
     }
 
     public UserDTO getUserDTO(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(), user.getRoles());
     }
 
     public UserDTO getUserDTO(UUID uuid){
-        User user = userRepository.findByUuid(uuid).orElseThrow(() -> new UserNotFoundException("User not found."));
+        User user = userRepository.findByUuid(uuid).orElseThrow(UserNotFoundException::new);
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(), user.getRoles());
     }
 
     public void updateUserData(UserDTO userDTO){
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found."));
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userDTO.getId() + " nie istnieje."));
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setRoles(userDTO.getRoles());

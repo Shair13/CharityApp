@@ -53,7 +53,8 @@ public class AccountService {
     }
 
     public void updatePassword(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found.")); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() ->
+                new UserNotFoundException("Użytkownik z id = " + userDTO.getId() + " nie istnieje."));
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
     }
@@ -83,7 +84,7 @@ public class AccountService {
 
     void checkEmailExists(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new UserExistsException("User with this email already exists");
+            throw new UserExistsException();
         }
     }
 }
