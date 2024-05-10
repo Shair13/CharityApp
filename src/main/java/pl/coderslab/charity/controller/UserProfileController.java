@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
@@ -36,7 +37,7 @@ public class UserProfileController {
     public String displayEditUserForm(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
@@ -63,7 +64,7 @@ public class UserProfileController {
     public String displayChangePasswordForm(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         model.addAttribute("userDTO", userDTO);
@@ -83,7 +84,7 @@ public class UserProfileController {
     public String showDonations(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
         model.addAttribute("donations", donationRepository.findAllSortedByArchivedAndPickUpDate(user));
         return "profile/donations";
     }

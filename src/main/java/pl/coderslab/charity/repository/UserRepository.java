@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmailAndIsDeleted(String email, int isDeleted);
+    Optional<User> findByEmailAndIsDeleted(String email, int isDeleted);
     List<User> findByRoles(Role role);
     Optional<User> findByUuid(UUID uuid);
 
