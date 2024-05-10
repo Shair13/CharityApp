@@ -14,6 +14,7 @@ import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
 
@@ -26,6 +27,7 @@ public class AdminController {
     private final UserOperationService userOperationService;
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final AccountService accountService;
 
     @GetMapping("/admin/add")
     public String displayAddAdminForm(Model model) {
@@ -73,7 +75,7 @@ public class AdminController {
     @PostMapping("/admin/password")
     public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2){
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-            userOperationService.updatePassword(userDTO, password2);
+            accountService.updatePassword(userDTO, password2);
             return "redirect:/dashboard/admins";
         }
         return "admin/admin-change-password";

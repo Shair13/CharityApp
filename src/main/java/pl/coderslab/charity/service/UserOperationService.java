@@ -23,7 +23,6 @@ import java.util.UUID;
 public class UserOperationService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final SpringDataUserDetailsService springDataUserDetailsService;
 
     public List<User> findUserByRole(String roleName) {
@@ -31,14 +30,15 @@ public class UserOperationService {
         return userRepository.findByRoles(role);
     }
 
-    public void updatePassword(UserDTO userDTO, String password2) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException("User with id = " + userDTO.getId() + " not found.")); //swój wyjątek (userNotFoundException) - exception Handler (spring MVC)
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        userRepository.save(user);
-    }
 
     public UserDTO getUserDTO(Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found."));
+        return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(),
+                user.getEnabled(), user.getRoles());
+    }
+
+    public UserDTO getUserDTO(UUID uuid){
+        User user = userRepository.findByUuid(uuid).orElseThrow(() -> new UserNotFoundException("User not found."));
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(),
                 user.getEnabled(), user.getRoles());
     }
@@ -93,7 +93,7 @@ public class UserOperationService {
     }
 
     public void activateUser(UUID uuid){
-       User user = userRepository.findAllByUuid(uuid);
+       User user = userRepository.findByUuid(uuid).orElseThrow(UserNotFoundException::new);
        user.setEnabled(1);
        userRepository.save(user);
     }

@@ -14,6 +14,7 @@ import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.SpringDataUserDetailsService;
 import pl.coderslab.charity.service.UserOperationService;
 
@@ -28,8 +29,8 @@ public class UserProfileController {
 
     private final UserRepository userRepository;
     private final SpringDataUserDetailsService springDataUserDetailsService;
-    private final UserOperationService userOperationService;
     private final DonationRepository donationRepository;
+    private final AccountService accountService;
 
     @GetMapping("/edit")
     public String displayEditUserForm(Model model, Authentication authentication) {
@@ -72,7 +73,7 @@ public class UserProfileController {
     @PostMapping("password")
     public String processChangePassForm(UserDTO userDTO, @RequestParam String password2) {
         if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-            userOperationService.updatePassword(userDTO, password2);
+            accountService.updatePassword(userDTO, password2);
             return "redirect:/profile";
         }
         return "profile/change-password";
