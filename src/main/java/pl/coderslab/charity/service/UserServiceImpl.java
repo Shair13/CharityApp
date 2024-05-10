@@ -11,6 +11,7 @@ import pl.coderslab.charity.repository.UserRepository;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +27,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user, String role) {
+    public void saveNewUser(User user, String role) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(0);
         Role userRole = roleRepository.findByName("ROLE_" + role);
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         userRepository.save(user);
+    }
+
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
     }
 }

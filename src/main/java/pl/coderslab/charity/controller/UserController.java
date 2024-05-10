@@ -36,7 +36,7 @@ public class UserController {
         if (result.hasErrors() || !user.getPassword().equals(password2)) {
             return "admin/user-add-form";
         }
-        userService.saveUser(user, "USER");
+        userService.saveNewUser(user, "USER");
         return "redirect:/dashboard/users";
     }
 
