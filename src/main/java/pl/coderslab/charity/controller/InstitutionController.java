@@ -5,18 +5,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.model.Institution;
-import pl.coderslab.charity.repository.InstitutionRepository;
-
-import java.util.Optional;
+import pl.coderslab.charity.service.InstitutionService;
 
 @Controller
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
 public class InstitutionController {
 
-    private final InstitutionRepository institutionRepository;
+    private final InstitutionService institutionService;
 
     @GetMapping("/institution/add")
     public String displayAddForm(Model model) {
@@ -29,21 +30,20 @@ public class InstitutionController {
         if (result.hasErrors()) {
             return "admin/institution-add-form";
         }
-        institutionRepository.save(institution);
+        institutionService.saveInstitution(institution);
         return "redirect:/dashboard/institutions";
     }
 
 
     @GetMapping("/institutions")
     public String displayInstitutions(Model model) {
-        model.addAttribute("institutions", institutionRepository.findAllByIsDeleted(0));
+        model.addAttribute("institutions", institutionService.findAllInstitutions());
         return "admin/institutions";
     }
 
     @GetMapping("/institution/edit/{id}")
     public String displayEditInstitutionForm(@PathVariable Long id, Model model) {
-        Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        optionalInstitution.ifPresent(i -> model.addAttribute("institution", i));
+        model.addAttribute("institution", institutionService.findInstitutionById(id));
         return "admin/institution-edit-form";
     }
 
@@ -52,17 +52,13 @@ public class InstitutionController {
         if (result.hasErrors()) {
             return "admin/institution-edit-form";
         }
-        institutionRepository.save(institution);
+        institutionService.saveInstitution(institution);
         return "redirect:/dashboard/institutions";
     }
 
     @GetMapping("/institution/delete/{id}")
     public String deleteInstitution(@PathVariable Long id) {
-        Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        optionalInstitution.ifPresent(i -> {
-            i.setIsDeleted(1);
-            institutionRepository.save(i);
-        });
+        institutionService.deleteInstitution(id);
         return "redirect:/dashboard/institutions";
     }
 }

@@ -6,12 +6,14 @@ import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmailAndIsDeleted(String email, int isDeleted);
+    Optional<User> findByEmailAndIsDeleted(String email, int isDeleted);
+    Optional<User> findByEmail(String email);
     List<User> findByRoles(Role role);
-    User findAllByUuid(UUID uuid);
+    Optional<User> findByUuid(UUID uuid);
 
 }

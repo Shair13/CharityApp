@@ -11,6 +11,7 @@ import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.UserOperationService;
 import pl.coderslab.charity.service.UserService;
 
@@ -21,7 +22,7 @@ public class UserController {
 
     private final UserOperationService userOperationService;
     private final UserService userService;
-    private final RoleRepository roleRepository;
+    private final AccountService accountService;
 
     @GetMapping("/user/add")
     public String displayAddUserForm(Model model) {
@@ -31,10 +32,10 @@ public class UserController {
 
     @PostMapping("/user/add")
     public String processAddUserForm(User user, BindingResult result, @RequestParam String password2) {
-        if (result.hasErrors() || !user.getPassword().equals(password2)) {
+        if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
             return "admin/user-add-form";
         }
-        userService.saveUser(user, "USER");
+        userService.saveNewUser(user, "USER");
         return "redirect:/dashboard/users";
     }
 
@@ -47,7 +48,7 @@ public class UserController {
     @GetMapping("/user/edit/{id}")
     public String displayEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("userDTO", userOperationService.getUserDTO(id));
-        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("roles", userService.findAllRoles());
         return "admin/user-edit-form";
     }
 
@@ -67,12 +68,12 @@ public class UserController {
     }
 
     @PostMapping("/user/password")
-    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2) {
-        if (userDTO.getPassword().length() > 5 && userDTO.getPassword().equals(password2)) {
-            userOperationService.updatePassword(userDTO, password2);
-            return "redirect:/dashboard/users";
+    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2, BindingResult result) {
+        if (result.hasErrors() && !accountService.comparePasswords(userDTO.getPassword(), password2)) {
+            return "admin/user-change-password";
         }
-        return "admin/user-change-password";
+        accountService.updatePassword(userDTO);
+        return "redirect:/dashboard/users";
     }
 
     @GetMapping("/user/block/{id}")
