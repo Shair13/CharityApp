@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import pl.coderslab.charity.exception.DonationNotFoundException;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Category;
 import pl.coderslab.charity.model.Donation;
@@ -15,7 +16,10 @@ import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +29,7 @@ public class DonationService {
     private final CategoryRepository categoryRepository;
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
-    private final EmailServiceImpl emailService;
+    private final EmailService emailService;
 
 
     public List<Category> findAllCategories() {
@@ -36,7 +40,7 @@ public class DonationService {
         return institutionRepository.findAllByIsDeleted(0);
     }
 
-    public void makeDonation(Authentication authentication, Donation donation, Model model) {
+    public String makeDonation(Authentication authentication, Donation donation, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
         User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
@@ -49,7 +53,28 @@ public class DonationService {
                 + donation.getPhone() + ".\n\nSerdecznie pozdrawiamy\nZespół CharityApp";
 
         emailService.sendSimpleMessage(user.getEmail(), "Message from customer", emailText);
-        String successMessage = "Dziękujemy za przesłanie formularza. Na maila " + user.getEmail() + " prześlemy wszelkie informacje o odbiorze.";
-        model.addAttribute("message", successMessage);
+
+        return "Dziękujemy za przesłanie formularza. Na maila " + user.getEmail() + " prześlemy wszelkie informacje o odbiorze.";
+    }
+
+    public List<Donation> findAllUserDonations(Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
+        return donationRepository.findAllSortedByArchivedAndPickUpDate(user);
+    }
+
+    public Donation findDonationById(Long id){
+       return donationRepository.findById(id).orElseThrow(DonationNotFoundException::new);
+    }
+
+    public void setDonationArchive(Long id){
+        Optional<Donation> optionalDonation = donationRepository.findById(id);
+        optionalDonation.ifPresent(d -> {
+            d.setArchived(1);
+            d.setRealPickUpDate(LocalDate.now());
+            d.setRealPickUpTime(LocalTime.now());
+            donationRepository.save(d);
+        });
     }
 }

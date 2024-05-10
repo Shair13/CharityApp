@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomePageService {
 
-    private final EmailServiceImpl emailService;
+    private final EmailService emailService;
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
 
@@ -38,5 +38,4 @@ public class HomePageService {
         String successMessage = "Wiadomość została wysłana. Odpowiemy najszybciej jak to tylko możliwe.";
         model.addAttribute("message", successMessage);
     }
-
 }

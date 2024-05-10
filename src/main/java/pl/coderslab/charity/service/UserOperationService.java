@@ -31,7 +31,6 @@ public class UserOperationService {
         return userRepository.findByRoles(role);
     }
 
-
     public UserDTO getUserDTO(Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found."));
         return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(),

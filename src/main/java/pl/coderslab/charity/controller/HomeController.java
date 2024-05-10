@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.HomePageService;
 import pl.coderslab.charity.service.UserOperationService;
@@ -48,7 +47,7 @@ public class HomeController {
         if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
             return "home/registration-form";
         }
-        accountService.createAccount(user, model);
+        model.addAttribute("message", accountService.createAccount(user));
         return "home/success-page";
     }
 
@@ -71,7 +70,7 @@ public class HomeController {
         if (user == null) {
             return "error/user-not-found";
         }
-        accountService.remindPassword(user, email, model);
+        model.addAttribute("message", accountService.remindPassword(user, email));
         return "home/success-page";
     }
 
