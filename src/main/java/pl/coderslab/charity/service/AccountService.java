@@ -29,8 +29,6 @@ public class AccountService {
 
     public String createAccount(User user) {
         checkEmailExists(user);
-        UUID uuid = UUID.randomUUID();
-        user.setUuid(uuid);
         userService.saveNewUser(user, "USER");
         String link = "http://localhost:8080/activation/" + user.getUuid();
         String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do Twojego konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
