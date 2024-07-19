@@ -19,6 +19,10 @@ public class Institution {
     private Long id;
     private String name;
     private String description;
-    private int isDeleted;
+    private int isDeleted = 0;
 
+    public Institution(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

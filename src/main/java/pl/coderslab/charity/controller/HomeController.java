@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.service.AccountService;
-import pl.coderslab.charity.service.HomePageService;
-import pl.coderslab.charity.service.UserOperationService;
-import pl.coderslab.charity.service.UserService;
+import pl.coderslab.charity.service.*;
 
 import java.util.UUID;
 
@@ -28,6 +25,7 @@ public class HomeController {
     private final UserOperationService userOperationService;
     private final HomePageService homePageService;
     private final AccountService accountService;
+    private final SqlInitService sqlInitService;
 
     @GetMapping("/")
     public String homeAction(Model model) {
@@ -96,5 +94,10 @@ public class HomeController {
     public String contactMessage(@RequestParam String name, @RequestParam String surname, @RequestParam String message, Model model) {
         homePageService.sendMessage(name, surname, message, model);
         return "home/success-page";
+    }
+
+    @GetMapping("/sqlinit")
+    public String initrialSqlMethod(Model model){
+        return sqlInitService.sqlInit(model);
     }
 }
