@@ -33,12 +33,12 @@ public class UserOperationService {
 
     public UserDTO getUserDTO(Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
-        return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(), user.getRoles());
+        return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getRoles(), user.getEnabled());
     }
 
     public UserDTO getUserDTO(UUID uuid){
         User user = userRepository.findByUuid(uuid).orElseThrow(UserNotFoundException::new);
-        return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getPassword(), user.getRoles());
+        return new UserDTO(user.getId(), user.getFirstName(), user.getEmail(), user.getRoles(), user.getEnabled());
     }
 
     public void updateUserData(UserDTO userDTO){
@@ -47,12 +47,6 @@ public class UserOperationService {
         user.setEmail(userDTO.getEmail());
         user.setRoles(userDTO.getRoles());
         userRepository.save(user);
-    }
-
-    public void refreshSession(UserDTO userDTO){
-        UserDetails updatedUserDetails = springDataUserDetailsService.loadUserByUsername(userDTO.getEmail());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     public void blockUser(Long userId){

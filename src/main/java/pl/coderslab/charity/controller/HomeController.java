@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.service.AccountService;
@@ -81,9 +82,9 @@ public class HomeController {
     }
 
     @PostMapping("/newpass")
-    public String processNewPasswordForm(UserDTO userDTO, @RequestParam String password2, Model model) {
-        if (accountService.comparePasswords(userDTO.getPassword(), password2)) {
-            accountService.updatePassword(userDTO);
+    public String processNewPasswordForm(PasswordDTO passwordDTO, @RequestParam String password2, Model model) {
+        if (accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
+            accountService.updatePassword(passwordDTO);
             String message = "Hasło zostało zmienione! :)";
             model.addAttribute("message", message);
             return "home/success-page";

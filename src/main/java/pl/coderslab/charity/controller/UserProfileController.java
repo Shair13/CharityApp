@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Donation;
@@ -52,11 +54,11 @@ public class UserProfileController {
     }
 
     @PostMapping("password")
-    public String processChangePassForm(UserDTO userDTO, @RequestParam String password2, BindingResult result) {
-        if (result.hasErrors() && !accountService.comparePasswords(userDTO.getPassword(), password2)) {
+    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam String password2, BindingResult result) {
+        if (result.hasErrors() && !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "profile/change-password";
         }
-        accountService.updatePassword(userDTO);
+        accountService.updatePassword(passwordDTO);
         return "redirect:/profile";
     }
 

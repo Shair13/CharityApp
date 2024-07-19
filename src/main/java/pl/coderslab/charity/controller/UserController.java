@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
@@ -68,11 +69,11 @@ public class UserController {
     }
 
     @PostMapping("/user/password")
-    public String processChangePassForm(@Valid UserDTO userDTO, @RequestParam String password2, BindingResult result) {
-        if (result.hasErrors() && !accountService.comparePasswords(userDTO.getPassword(), password2)) {
+    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam String password2, BindingResult result) {
+        if (result.hasErrors() && !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "admin/user-change-password";
         }
-        accountService.updatePassword(userDTO);
+        accountService.updatePassword(passwordDTO);
         return "redirect:/dashboard/users";
     }
 

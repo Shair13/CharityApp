@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.exception.UserExistsException;
 import pl.coderslab.charity.exception.UserNotFoundException;
@@ -52,10 +53,10 @@ public class AccountService {
         return "Udało sie! Zajrzyj na maila, tam znajdziesz link do formularza zmiany hasła.";
     }
 
-    public void updatePassword(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(() ->
-                new UserNotFoundException("Użytkownik z id = " + userDTO.getId() + " nie istnieje."));
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    public void updatePassword(PasswordDTO passwordDTO) {
+        User user = userRepository.findById(passwordDTO.getId()).orElseThrow(() ->
+                new UserNotFoundException("Użytkownik z id = " + passwordDTO.getId() + " nie istnieje."));
+        user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
         userRepository.save(user);
     }
 
@@ -67,6 +68,7 @@ public class AccountService {
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setFirstName(user.getFirstName());
+        userDTO.setEnabled(user.getEnabled());
         return userDTO;
     }
 

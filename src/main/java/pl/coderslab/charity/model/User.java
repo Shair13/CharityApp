@@ -11,8 +11,7 @@ import pl.coderslab.charity.validator.Password;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
