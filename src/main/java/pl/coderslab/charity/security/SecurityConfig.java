@@ -18,7 +18,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/registration", "/resources/**", "/activation/**", "/reminder/**", "/forbidden", "/newpass/**", "/contact", "/sqlinit").permitAll()
                         .requestMatchers("/donation", "/profile/**", "/confirmation").authenticated()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN"))
-                .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").permitAll())
+                .formLogin(f -> f.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/", true).permitAll())
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .exceptionHandling(e -> e.accessDeniedPage("/forbidden"));
 
