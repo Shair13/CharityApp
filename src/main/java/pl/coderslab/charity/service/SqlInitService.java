@@ -56,22 +56,12 @@ public class SqlInitService {
     }
 
     private void initAdmin() {
-        User admin = User.builder()
-                .firstName("Admin")
-                .email("admin@admin.com")
-                .password("123!@#qweQWE")
-                .build();
+        User admin = new User("Admin", "admin@admin.com","123!@#qweQWE", 1);
         userService.saveNewUser(admin, "ADMIN");
     }
 
     private void initUser() {
-        User admin = User.builder()
-                .firstName("Jango Fett")
-                .email("jango.fett@empire.ds")
-                .password("123!@#qweQWE")
-                .build();
-        userService.saveNewUser(admin, "USER");
+        User user = new User("Jango Fett", "jango.fett@empire.ds","123!@#qweQWE", 1);
+        userService.saveNewUser(user, "USER");
     }
-
-
 }

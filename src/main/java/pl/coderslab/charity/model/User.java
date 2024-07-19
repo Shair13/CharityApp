@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -45,4 +44,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    public User(String firstName, String email, String password, int enabled) {
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+    }
 }
