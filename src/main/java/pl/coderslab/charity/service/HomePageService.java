@@ -28,7 +28,7 @@ public class HomePageService {
     }
 
     public int donationsQuantity() {
-        Integer donationsQuantity = donationRepository.sumQuantity();
+        Integer donationsQuantity = donationRepository.countDonations();
         return donationsQuantity == null ? 0 : donationsQuantity;
     }
 

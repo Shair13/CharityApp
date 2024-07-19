@@ -14,7 +14,8 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     @Query("SELECT SUM(d.quantity) FROM Donation d")
     Integer sumQuantity();
 
-    List<Donation> findAllByUser(User user);
+    @Query("SELECT COUNT(d) FROM Donation d")
+    Integer countDonations();
 
     @Query("SELECT d FROM Donation d WHERE d.user = ?1 ORDER BY d.archived ASC, d.realPickUpDate DESC, d.realPickUpTime DESC")
     List<Donation> findAllSortedByArchivedAndPickUpDate(User user);
