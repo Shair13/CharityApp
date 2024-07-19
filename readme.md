@@ -1,24 +1,62 @@
 # Charity App - Good deeds without leaving home!
 
 # Description
-This is an application for managing charity donations. It allows you to easily pass on unwanted items to people in need. As an admin, you can also manage institutions, donations, users, and other admins.
 
-### To build
+This is an application for managing charity donations. It allows you to easily pass on unwanted items to people in need.
+As an admin, you can also manage institutions, donations, users, and other admins.
 
-<pre>mvn package</pre>
+## How to Run the Application
 
-### To run
+### Steps:
 
-<pre>java -jar ./charity-0.0.1-SNAPSHOT.jar</pre>
+1. **Clone the Repository:** Clone this repository to your local machine using the following command in your terminal:
 
-### The aplication will run on http://localhost:8080 
+   **HTTPS**
+    ```
+    git clone https://github.com/Shair13/CharityApp.git
+    ```
+   **SSH**
+   ```
+    git clone git@github.com:Shair13/CharityApp.git
+    ```
+
+2. **Run the Application:** Navigate to the repository folder and use the Docker Compose command to run the application:
+
+    ```bash
+    docker compose up
+    ```
+
+3. **Access the Application:** Once the application is running, you can access it through your web browser at the
+   following address:
+
+   ```
+   http://localhost:8080
+   ```
+
+4. **Initializing SQL database data:** Before you start using the application, initialize the database data through the
+   link:
+
+   ```
+   http://localhost:8080/sqlinit
+   ```
+
+5. **Accounts:** Now you have full access to the application as an Admin:
+
+- login: admin@admin.com
+- password: 123!@#qweQWE
+
+and as a regular User:
+
+- login: jango.fett@empire.ds
+- password: 123!@#qweQWE
 
 # Home page
 
 ![Home Page](images/home_page.png)
 
 This is the initial page that anyone can access.
-By scrolling down you can check how many bags and donations have been given to foundations, how the process works and you can decide to register.
+By scrolling down you can check how many bags and donations have been given to foundations, how the process works and
+you can decide to register.
 
 ![Bags Counter](images/counter.png)
 
@@ -26,7 +64,8 @@ You can also check foundations we are working with.
 
 ![Foundations](images/fundations.png)
 
-At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about creating an account.
+At the end of the home page, you can find a form to contact us. Feel free to ask any questions if you are not sure about
+creating an account.
 
 ![Contact Form](images/form_contact.png)
 
@@ -40,7 +79,8 @@ Now that you've decided to register and help someone, you can easily do it by us
 
 ![Registration Form](images/form_registration.png)
 
-If you input an invalid password (it must contain at least one lowercase letter, one uppercase letter, one digit, and one special character, with a length between 8 and 32 characters), 
+If you input an invalid password (it must contain at least one lowercase letter, one uppercase letter, one digit, and
+one special character, with a length between 8 and 32 characters),
 you will receive information guiding you on what you did wrong.
 
 ![Password validator](images/password-validator.png)
@@ -65,7 +105,8 @@ Once you have successfully registered on our page, you can log in to your accoun
 
 ![Login Page](images/form_login.png)
 
-If both the email and password are correct, you will be redirected to the home page, and you will gain access to your account in the top right corner.
+If both the email and password are correct, you will be redirected to the home page, and you will gain access to your
+account in the top right corner.
 
 ![User Panel](images/panel_user.png)
 
@@ -74,7 +115,8 @@ But what do you do if you forget your password?
 # Lost Password
 
 What if you forgot your password? No worries, we've got you covered!
-Simply go to the password reminder section on the login page. You'll be redirected to the password reminder form, where you only need to provide your email.
+Simply go to the password reminder section on the login page. You'll be redirected to the password reminder form, where
+you only need to provide your email.
 
 ![Password Reminder Form](images/form_remind_password.png)
 
@@ -136,7 +178,7 @@ As a user, you can change your name, email, and password.
 
 ![User Change Password](images/user_change_password.png)
 
-You also have access to your donations. 
+You also have access to your donations.
 We would be very grateful if you marked the parcel as "picked up" in our application after the courier has collected it.
 This will make the whole process more efficient :)
 
@@ -151,18 +193,22 @@ You can review the details of your donations, even after they have been marked a
 As an Admin, you can manage institutions, users, and other admins.
 
 ## Institutions
+
 You have the ability to edit or remove an institution.
 
 ![Admin Institutions](images/admin_institutions.png)
 
 ## Users
-You can block/unblock and delete/revive (soft delete) users. Blocked users will not be able to log in to their accounts. Admins can also modify all user data such as name, email, password, or account permissions.
+
+You can block/unblock and delete/revive (soft delete) users. Blocked users will not be able to log in to their accounts.
+Admins can also modify all user data such as name, email, password, or account permissions.
 
 ![Admin Users](images/admin_users.png)
 
 ![Admin Users](images/edit_user.png)
 
 ## Admins
+
 First and foremost, you cannot delete yourself - it's for your safety. However, you can delete and revive other admins.
 
 ![Admin Admins](images/admin_admins.png)
@@ -171,7 +217,8 @@ First and foremost, you cannot delete yourself - it's for your safety. However, 
 
 # Conclusion
 
-Thank you for exploring Charity App! We hope this platform makes a positive impact in the world by facilitating easy and effective charitable donations. Your contributions matter, and together, we can make a difference! :)
+Thank you for exploring Charity App! We hope this platform makes a positive impact in the world by facilitating easy and
+effective charitable donations. Your contributions matter, and together, we can make a difference! :)
 
 # Contact
 
