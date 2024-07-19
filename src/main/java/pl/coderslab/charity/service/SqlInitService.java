@@ -22,7 +22,7 @@ public class SqlInitService {
     private final UserService userService;
 
     public String sqlInit(Model model) {
-        if (roleRepository.findByName("USER") == null) {
+        if (roleRepository.findByName("ROLE_ADMIN") == null) {
             initRoles();
             initInstitutions();
             initAdmin();
@@ -36,7 +36,7 @@ public class SqlInitService {
     }
 
     private void initRoles() {
-        List<String> roles = new ArrayList<>(Arrays.asList("ADMIN_ROLE", "USER_ROLE"));
+        List<String> roles = new ArrayList<>(Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
         roles.forEach(role -> roleRepository.save(new Role(role)));
     }
 
