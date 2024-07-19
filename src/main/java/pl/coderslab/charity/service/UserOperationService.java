@@ -46,6 +46,7 @@ public class UserOperationService {
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setRoles(userDTO.getRoles());
+        user.setEnabled(userDTO.getEnabled());
         userRepository.save(user);
     }
 
