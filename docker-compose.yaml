@@ -1,14 +1,15 @@
 services:
   springboot-app:
     container_name: springboot-app
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     restart: always
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     ports:
-    - "8080:8080"
+      - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/CharityDonationDB
       MYSQL_ROOT_PASSWORD: root
@@ -21,12 +22,17 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: CharityDonationDB
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
-  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   adminer:
-     container_name: adminer
-     image: adminer
-     ports:
-       - "8000:8080"
+    container_name: adminer
+    image: adminer
+    ports:
+      - "8000:8080"
