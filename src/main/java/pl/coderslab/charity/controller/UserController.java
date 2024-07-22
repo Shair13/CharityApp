@@ -9,12 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.repository.RoleRepository;
-import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.UserOperationService;
-import pl.coderslab.charity.service.UserService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -22,7 +22,6 @@ import pl.coderslab.charity.service.UserService;
 public class UserController {
 
     private final UserOperationService userOperationService;
-    private final UserService userService;
     private final AccountService accountService;
 
     @GetMapping("/user/add")
@@ -32,11 +31,11 @@ public class UserController {
     }
 
     @PostMapping("/user/add")
-    public String processAddUserForm(User user, BindingResult result, @RequestParam String password2) {
+    public String processAddUserForm(@Valid User user, BindingResult result, @RequestParam String password2) {
         if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
             return "admin/user-add-form";
         }
-        userService.saveNewUser(user, "USER");
+        accountService.saveNewUser(user, "USER");
         return "redirect:/dashboard/users";
     }
 
@@ -49,7 +48,6 @@ public class UserController {
     @GetMapping("/user/edit/{id}")
     public String displayEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("userDTO", userOperationService.getUserDTO(id));
-        model.addAttribute("roles", userService.findAllRoles());
         return "admin/user-edit-form";
     }
 
@@ -99,5 +97,10 @@ public class UserController {
     public String recoverUser(@PathVariable Long id) {
         userOperationService.recoverUser(id);
         return "redirect:/dashboard/users";
+    }
+
+    @ModelAttribute("roles")
+    public List<Role> getAllRoles() {
+        return accountService.findAllRoles();
     }
 }

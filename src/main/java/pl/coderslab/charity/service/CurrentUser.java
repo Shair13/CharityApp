@@ -1,8 +1,11 @@
 package pl.coderslab.charity.service;
 
 import java.util.Collection;
+
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+@Getter
 public class CurrentUser extends User {
     private final pl.coderslab.charity.model.User user;
     public CurrentUser(String email, String password,
@@ -11,7 +14,6 @@ public class CurrentUser extends User {
         super(email, password, authorities);
         this.user = user;
     }
-    public pl.coderslab.charity.model.User getUser() {return user;}
 
     @Override
     public boolean isEnabled() {

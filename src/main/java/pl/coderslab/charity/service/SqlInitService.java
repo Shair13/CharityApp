@@ -19,7 +19,7 @@ public class SqlInitService {
 
     private final RoleRepository roleRepository;
     private final InstitutionRepository institutionRepository;
-    private final UserService userService;
+    private final AccountService accountService;
 
     public String sqlInit(Model model) {
         if (roleRepository.findByName("ROLE_ADMIN") == null) {
@@ -57,11 +57,11 @@ public class SqlInitService {
 
     private void initAdmin() {
         User admin = new User("Admin", "admin@admin.com","123!@#qweQWE", 1);
-        userService.saveNewUser(admin, "ADMIN");
+        accountService.saveNewUser(admin, "ADMIN");
     }
 
     private void initUser() {
         User user = new User("Jango Fett", "jango.fett@empire.ds","123!@#qweQWE", 1);
-        userService.saveNewUser(user, "USER");
+        accountService.saveNewUser(user, "USER");
     }
 }

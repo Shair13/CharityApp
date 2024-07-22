@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.dto.PasswordDTO;
-import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.service.*;
+import pl.coderslab.charity.service.AccountService;
+import pl.coderslab.charity.service.HomePageService;
+import pl.coderslab.charity.service.SqlInitService;
+import pl.coderslab.charity.service.UserOperationService;
 
 import java.util.UUID;
 
@@ -21,7 +23,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final UserService userService;
     private final UserOperationService userOperationService;
     private final HomePageService homePageService;
     private final AccountService accountService;
@@ -65,7 +66,7 @@ public class HomeController {
 
     @PostMapping("/reminder")
     public String passwordReminder(@RequestParam String email, Model model) {
-        User user = userService.findByEmail(email);
+        User user = userOperationService.findUserByEmail(email);
         if (user == null) {
             return "error/user-not-found";
         }
@@ -97,7 +98,7 @@ public class HomeController {
     }
 
     @GetMapping("/sqlinit")
-    public String initrialSqlMethod(Model model){
+    public String initrialSqlMethod(Model model) {
         return sqlInitService.sqlInit(model);
     }
 }

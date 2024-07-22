@@ -16,11 +16,11 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SpringDataUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserOperationService userOperationService;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = userService.findByEmail(email);
+        User user = userOperationService.findUserByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }

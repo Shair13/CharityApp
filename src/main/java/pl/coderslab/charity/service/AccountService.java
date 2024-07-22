@@ -11,10 +11,14 @@ import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.exception.UserExistsException;
 import pl.coderslab.charity.exception.UserNotFoundException;
+import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
+import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,15 +26,23 @@ import java.util.UUID;
 public class AccountService {
 
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final RoleRepository roleRepository;
     private final EmailService emailService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final SpringDataUserDetailsService springDataUserDetailsService;
 
 
+    public void saveNewUser(User user, String role) {
+        checkEmailExists(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Role userRole = roleRepository.findByName("ROLE_" + role);
+        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+        userRepository.save(user);
+    }
+
     public String createAccount(User user) {
         checkEmailExists(user);
-        userService.saveNewUser(user, "USER");
+        saveNewUser(user, "USER");
         String link = "http://localhost:8080/activation/" + user.getUuid();
         String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do Twojego konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
         emailService.sendSimpleMessage(user.getEmail(), "Account confirmation", emailText);
@@ -87,4 +99,9 @@ public class AccountService {
             throw new UserExistsException();
         }
     }
+
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
+    }
+
 }

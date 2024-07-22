@@ -13,7 +13,6 @@ import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.UserOperationService;
-import pl.coderslab.charity.service.UserService;
 
 
 @Controller
@@ -22,7 +21,6 @@ import pl.coderslab.charity.service.UserService;
 public class AdminController {
 
     private final UserOperationService userOperationService;
-    private final UserService userService;
     private final AccountService accountService;
 
     @GetMapping("/admin/add")
@@ -36,7 +34,7 @@ public class AdminController {
         if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
             return "admin/admin-add-form";
         }
-        userService.saveNewUser(user, "ADMIN");
+        accountService.saveNewUser(user, "ADMIN");
         return "redirect:/dashboard/admins";
     }
 
@@ -49,7 +47,7 @@ public class AdminController {
     @GetMapping("/admin/edit/{id}")
     public String displayEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("userDTO", userOperationService.getUserDTO(id));
-        model.addAttribute("roles", userService.findAllRoles());
+        model.addAttribute("roles", accountService.findAllRoles());
         return "admin/admin-edit-form";
     }
 
