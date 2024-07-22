@@ -2,30 +2,15 @@ package pl.coderslab.charity.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
-import pl.coderslab.charity.exception.UserNotFoundException;
-import pl.coderslab.charity.model.Donation;
-import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.repository.DonationRepository;
-import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.DonationService;
-import pl.coderslab.charity.service.SpringDataUserDetailsService;
-import pl.coderslab.charity.service.UserOperationService;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile")
@@ -42,7 +27,7 @@ public class UserProfileController {
     }
 
     @PostMapping("/edit")
-    public String processEditUserForm(UserDTO userDTO) {
+    public String processEditUserForm(@Valid UserDTO userDTO) {
         accountService.updateUser(userDTO);
         return "redirect:/profile";
     }

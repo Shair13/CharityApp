@@ -46,7 +46,7 @@ public class AccountService {
         UUID uuid = UUID.randomUUID();
         user.setUuid(uuid);
         userRepository.save(user);
-        String link = "http://localhost:8080/newpass/" + user.getUuid();
+        String link = "http://localhost:8080/newpass/" + uuid;
         String emailText = "Cześć " + user.getFirstName() + ", oto link do zresetowania hasła: " + link + " - kliknij, aby przejść do formularza i ustawić nowe hasło.";
         emailService.sendSimpleMessage(email, "Reset password", emailText);
 
@@ -73,15 +73,13 @@ public class AccountService {
     }
 
     public void updateUser(UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findById(userDTO.getId());
-        optionalUser.ifPresent(u -> {
-            u.setEmail(userDTO.getEmail());
-            u.setFirstName(userDTO.getFirstName());
-            userRepository.save(u);
-            UserDetails updatedUserDetails = springDataUserDetailsService.loadUserByUsername(userDTO.getEmail());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        });
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new);
+        user.setEmail(userDTO.getEmail());
+        user.setFirstName(userDTO.getFirstName());
+        userRepository.save(user);
+        UserDetails updatedUserDetails = springDataUserDetailsService.loadUserByUsername(userDTO.getEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     void checkEmailExists(User user) {
