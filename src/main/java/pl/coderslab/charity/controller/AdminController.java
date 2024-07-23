@@ -40,7 +40,7 @@ public class AdminController {
 
     @GetMapping("/admins")
     public String displayAdmins(Model model) {
-        model.addAttribute("admins", userOperationService.findUserByRole("ROLE_ADMIN"));
+        model.addAttribute("admins", userOperationService.findUsersByRole("ROLE_ADMIN"));
         return "admin/admins";
     }
 

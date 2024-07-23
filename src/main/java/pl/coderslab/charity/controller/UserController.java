@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String displayUsers(Model model) {
-        model.addAttribute("users", userOperationService.findUserByRole("ROLE_USER"));
+        model.addAttribute("users", userOperationService.findUsersByRole("ROLE_USER"));
         return "admin/users";
     }
 
@@ -77,13 +77,13 @@ public class UserController {
 
     @GetMapping("/user/block/{id}")
     public String blockUser(@PathVariable Long id) {
-        userOperationService.blockUser(id);
+        userOperationService.blockUserToggle(id);
         return "redirect:/dashboard/users";
     }
 
     @GetMapping("/user/unblock/{id}")
     public String unblockUser(@PathVariable Long id) {
-        userOperationService.unblockUser(id);
+        userOperationService.blockUserToggle(id);
         return "redirect:/dashboard/users";
     }
 

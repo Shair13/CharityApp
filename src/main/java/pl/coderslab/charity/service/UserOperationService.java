@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.exception.RoleNotFoundException;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
@@ -12,7 +13,6 @@ import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,8 +22,8 @@ public class UserOperationService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    public List<User> findUserByRole(String roleName) {
-        Role role = roleRepository.findByName(roleName);
+    public List<User> findUsersByRole(String roleName) {
+        Role role = roleRepository.findByName(roleName).orElseThrow(RoleNotFoundException::new);
         return userRepository.findByRoles(role);
     }
 
@@ -50,38 +50,30 @@ public class UserOperationService {
         userRepository.save(user);
     }
 
-    public void blockUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        optionalUser.ifPresent(u -> {
-            u.setEnabled(0);
-            userRepository.save(u);
-        });
-    }
-
-    public void unblockUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        optionalUser.ifPresent(u -> {
-            u.setEnabled(1);
-            userRepository.save(u);
-        });
+    public void blockUserToggle(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
+        if (user.getEnabled() == 1) {
+            user.setEnabled(0);
+        } else {
+            user.setEnabled(1);
+        }
+        userRepository.save(user);
     }
 
     public void deleteUser(Long userId, Authentication authentication) {
-        userRepository.findById(userId).ifPresent(u -> {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String email = userDetails.getUsername();
-            if (!u.getEmail().equals(email)) {
-                u.setIsDeleted(1);
-                userRepository.save(u);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+            if (!user.getEmail().equals(email)) {
+                user.setIsDeleted(1);
+                userRepository.save(user);
             }
-        });
     }
 
     public void recoverUser(Long userId) {
-        userRepository.findById(userId).ifPresent(u -> {
-            u.setIsDeleted(0);
-            userRepository.save(u);
-        });
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
+        user.setIsDeleted(0);
+        userRepository.save(user);
     }
 
     public void activateUser(UUID uuid) {

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.dto.PasswordDTO;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.exception.RoleNotFoundException;
 import pl.coderslab.charity.exception.UserExistsException;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Role;
@@ -35,7 +36,7 @@ public class AccountService {
     public void saveNewUser(User user, String role) {
         checkEmailExists(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByName("ROLE_" + role);
+        Role userRole = roleRepository.findByName("ROLE_" + role).orElseThrow(RoleNotFoundException::new);
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         userRepository.save(user);
     }
