@@ -48,7 +48,7 @@ public class AccountService {
         String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do Twojego konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
         emailService.sendSimpleMessage(user.getEmail(), "Account confirmation", emailText);
 
-        return "Udało sie! Zajrzyj na maila, tam znajdziesz link aktywacyjny do Twojego konta.";
+        return "Udało sie! Zajrzyj na swojego maila (" + user.getEmail() + "), tam znajdziesz link aktywacyjny do Twojego konta.";
     }
 
     public boolean comparePasswords(String password, String repeatedPassword) {

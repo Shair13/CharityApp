@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -19,4 +18,7 @@ public class Category {
     private Long id;
     private String name;
 
+    public Category(String name) {
+        this.name = name;
+    }
 }
