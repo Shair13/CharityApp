@@ -51,6 +51,18 @@ public class AccountService {
         return "Udało sie! Zajrzyj na swojego maila (" + user.getEmail() + "), tam znajdziesz link aktywacyjny do Twojego konta.";
     }
 
+    public UserDTO displayCurrentUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setEnabled(user.getEnabled());
+        return userDTO;
+    }
+
     public boolean comparePasswords(String password, String repeatedPassword) {
         return password.equals(repeatedPassword);
     }
@@ -71,18 +83,6 @@ public class AccountService {
                 new UserNotFoundException(passwordDTO.getId()));
         user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
         userRepository.save(user);
-    }
-
-    public UserDTO displayCurrentUser(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setEnabled(user.getEnabled());
-        return userDTO;
     }
 
     public void updateUser(UserDTO userDTO) {

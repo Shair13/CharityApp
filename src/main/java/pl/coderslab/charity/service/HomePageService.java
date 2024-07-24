@@ -3,24 +3,15 @@ package pl.coderslab.charity.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.repository.DonationRepository;
-import pl.coderslab.charity.repository.InstitutionRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class HomePageService {
 
     private final EmailService emailService;
-    private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
 
-
-    public List<Institution> findAllInstitutions() {
-        return institutionRepository.findAll();
-    }
 
     public int bagsQuantity() {
         Integer bagsQuantity = donationRepository.sumQuantity();

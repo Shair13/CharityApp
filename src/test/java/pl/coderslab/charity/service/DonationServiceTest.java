@@ -16,7 +16,6 @@ import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
-import pl.coderslab.charity.repository.InstitutionRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -107,7 +106,7 @@ class DonationServiceTest {
                 () -> donationService.makeDonation(authentication, donation));
 
         // then
-        assertTrue(thrown.getMessage().contains("Nie znaleziono użytkownika."));
+        assertTrue(thrown.getMessage().contains("Użytkownik " + USER_EMAIL + " nie istnieje."));
     }
 
     @Test
@@ -130,7 +129,7 @@ class DonationServiceTest {
         DonationNotFoundException thrown = assertThrows(DonationNotFoundException.class, () -> donationService.findDonationById(DONATION_ID));
 
         //then
-        assertTrue(thrown.getMessage().contains("Nie znaleziono darowizny o id = " + DONATION_ID + "."));
+        assertTrue(thrown.getMessage().contains("Darowizna z id = " + DONATION_ID + " nie istnieje."));
     }
 
     @Test
@@ -155,6 +154,6 @@ class DonationServiceTest {
         DonationNotFoundException thrown = assertThrows(DonationNotFoundException.class, () -> donationService.setDonationArchive(DONATION_ID));
 
         //then
-        assertTrue(thrown.getMessage().contains("Nie znaleziono darowizny o id = " + DONATION_ID + "."));
+        assertTrue(thrown.getMessage().contains("Darowizna z id = " + DONATION_ID + " nie istnieje."));
     }
 }

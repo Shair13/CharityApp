@@ -92,7 +92,7 @@ class UserOperationServiceTest {
                 () -> userOperationService.findUserByEmail(EMAIL));
 
         // then
-        assertTrue(thrown.getMessage().contains("Nie znaleziono użytkownika z emailem: " + EMAIL + "."));
+        assertTrue(thrown.getMessage().contains("Użytkownik " + EMAIL + " nie istnieje."));
     }
 
     @Test

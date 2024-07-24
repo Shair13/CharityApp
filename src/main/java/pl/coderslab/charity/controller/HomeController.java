@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.dto.PasswordDTO;
+import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.service.AccountService;
-import pl.coderslab.charity.service.HomePageService;
-import pl.coderslab.charity.service.SqlInitService;
-import pl.coderslab.charity.service.UserOperationService;
+import pl.coderslab.charity.service.*;
 
 import java.util.UUID;
 
@@ -26,11 +24,12 @@ public class HomeController {
     private final UserOperationService userOperationService;
     private final HomePageService homePageService;
     private final AccountService accountService;
+    private final InstitutionService institutionService;
     private final SqlInitService sqlInitService;
 
     @GetMapping("/")
     public String homeAction(Model model) {
-        model.addAttribute("institutions", homePageService.findAllInstitutions());
+        model.addAttribute("institutions", institutionService.findAllInstitutions());
         model.addAttribute("sumQuantity", homePageService.bagsQuantity());
         model.addAttribute("donations", homePageService.donationsQuantity());
         return "home/home";
