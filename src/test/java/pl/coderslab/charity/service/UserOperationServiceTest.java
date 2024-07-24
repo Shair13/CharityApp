@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithUserDetails;
 import pl.coderslab.charity.dto.UserDTO;
+import pl.coderslab.charity.exception.RoleNotFoundException;
+import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
@@ -16,7 +18,7 @@ import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +47,7 @@ class UserOperationServiceTest {
     private UserOperationService userOperationService;
 
     @Test
-    void findUserByRole() {
+    void shouldFindUserByRole() {
         // given
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, NOT_DELETED, null, ROLES);
         Role role = new Role("ROLE_ADMIN");
@@ -58,6 +60,18 @@ class UserOperationServiceTest {
         // then
         assertEquals(1, users.size());
         assertEquals(users.get(0), user);
+    }
+
+    @Test
+    void findUserByRole_shouldThrowRoleNotFoundException() {
+        // given
+        String role = "ROLE_ADMIN";
+
+        // when
+        RoleNotFoundException thrown = assertThrows(RoleNotFoundException.class,
+                () -> userOperationService.findUsersByRole(role));
+        // then
+        assertTrue(thrown.getMessage().contains("Nie znaleziono roli."));
     }
 
     @Test
@@ -74,7 +88,17 @@ class UserOperationServiceTest {
     }
 
     @Test
-    void getUserDTO() {
+    void findUserByEmail_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.findUserByEmail(EMAIL));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Nie znaleziono użytkownika z emailem: " + EMAIL + "."));
+    }
+
+    @Test
+    void shouldGetUserDTO() {
         // given
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, NOT_DELETED, null, ROLES);
         when(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(user));
@@ -90,7 +114,17 @@ class UserOperationServiceTest {
     }
 
     @Test
-    void updateUserData() {
+    void getUserDTO_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
+    }
+
+    @Test
+    void shouldUpdateUserData() {
         // given
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, NOT_DELETED, null, ROLES);
         UserDTO userDTO = new UserDTO(USER_ID, "Jango Fett", "jango.fett@empire.ds", ROLES, ENABLED);
@@ -104,6 +138,16 @@ class UserOperationServiceTest {
         assertEquals(user.getFirstName(), userDTO.getFirstName());
         assertEquals(user.getEmail(), userDTO.getEmail());
         assertEquals(user.getEnabled(), userDTO.getEnabled());
+    }
+
+    @Test
+    void UpdateUserData_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
     }
 
     @Test
@@ -131,10 +175,19 @@ class UserOperationServiceTest {
         // then
         assertEquals(1, userEnabled.getEnabled());
     }
+    @Test
+    void blockUserToggle_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
+    }
 
     @Test
     @WithUserDetails("sky.guy@republic.co")
-    void deleteUser() {
+    void shouldDeleteUser() {
         // give
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, NOT_DELETED, null, ROLES);
         userDetails = mock(UserDetails.class);
@@ -148,9 +201,18 @@ class UserOperationServiceTest {
         // then
         assertEquals(DELETED, user.getIsDeleted());
     }
+    @Test
+    void deleteUser_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
+    }
 
     @Test
-    void recoverUser() {
+    void shouldRecoverUser() {
         // give
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, DELETED, null, ROLES);
         when(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(user));
@@ -161,9 +223,18 @@ class UserOperationServiceTest {
         // then
         assertEquals(NOT_DELETED, user.getIsDeleted());
     }
+    @Test
+    void recoverUser_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
+    }
 
     @Test
-    void activateUser() {
+    void shouldActivateUser() {
         // given
         UUID uuid = UUID.randomUUID();
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, DISABLED, DELETED, uuid, ROLES);
@@ -174,5 +245,14 @@ class UserOperationServiceTest {
 
         // then
         assertEquals(ENABLED, user.getEnabled());
+    }
+    @Test
+    void activateUser_shouldThrowUserNotFoundException() {
+        // given + when
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+                () -> userOperationService.getUserDTO(USER_ID));
+
+        // then
+        assertTrue(thrown.getMessage().contains("Użytkownik z id = " + USER_ID + " nie istnieje."));
     }
 }

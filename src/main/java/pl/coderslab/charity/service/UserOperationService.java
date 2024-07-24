@@ -28,7 +28,7 @@ public class UserOperationService {
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException("Nie znaleziono użytkownika z emailem: " + email + "."));
     }
 
     public UserDTO getUserDTO(Long userId) {
@@ -64,10 +64,10 @@ public class UserOperationService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Użytkownik z id = " + userId + " nie istnieje."));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-            if (!user.getEmail().equals(email)) {
-                user.setIsDeleted(1);
-                userRepository.save(user);
-            }
+        if (!user.getEmail().equals(email)) {
+            user.setIsDeleted(1);
+            userRepository.save(user);
+        }
     }
 
     public void recoverUser(Long userId) {
