@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.service.DonationService;
+import pl.coderslab.charity.service.InstitutionService;
 
 @Controller
 @RequiredArgsConstructor
 public class DonationController {
 
     private final DonationService donationService;
+    private final InstitutionService institutionService;
 
     @GetMapping("/donation")
     public String displayDonationForm(Model model) {
         model.addAttribute("donation", new Donation());
         model.addAttribute("categories", donationService.findAllCategories());
-        model.addAttribute("institutions", donationService.findAllInstitutions());
+        model.addAttribute("institutions", institutionService.findAllInstitutions());
         return "app/form";
     }
 

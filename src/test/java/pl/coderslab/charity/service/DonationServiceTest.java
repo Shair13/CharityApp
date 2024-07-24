@@ -30,13 +30,12 @@ import static org.mockito.Mockito.*;
 class DonationServiceTest {
 
     private final Long DONATION_ID = 1L;
+    private final String USER_EMAIL = "sky.guy@republic.co";
 
     @Mock
     private UserRepository mockUserRepository;
     @Mock
     private CategoryRepository mockCategoryRepository;
-    @Mock
-    private InstitutionRepository mockInstitutionRepository;
     @Mock
     private DonationRepository mockDonationRepository;
     @Mock
@@ -67,40 +66,18 @@ class DonationServiceTest {
     }
 
     @Test
-    void shouldFindAllInstitutions() {
-        // given
-        List<Institution> institutions = List.of(new Institution(), new Institution());
-        when(mockInstitutionRepository.findAllByIsDeleted(0)).thenReturn(institutions);
-
-        // when
-        List<Institution> result = donationService.findAllInstitutions();
-
-        //then
-        assertEquals(institutions.size(), result.size());
-    }
-
-    @Test
-    void findAllInstitutions() {
-        // given + when
-        List<Institution> result = donationService.findAllInstitutions();
-
-        //then
-        assertEquals(0, result.size());
-    }
-
-    @Test
     @WithUserDetails("sky.guy@republic.co")
     void shouldMakeDonation() {
         // given
-        User user = new User(1L, "Anakin", "sky.guy@republic.co", "password", 1, 0, null, null);
+        User user = new User(1L, "Anakin", USER_EMAIL, "password", 1, 0, null, null);
         Donation donation = new Donation();
         Institution institution = new Institution();
         institution.setName("Charity Institution");
         donation.setInstitution(institution);
         UserDetails userDetails = mock(UserDetails.class);
         Authentication authentication = mock(Authentication.class);
-        when(userDetails.getUsername()).thenReturn("sky.guy@republic.co");
-        when(mockUserRepository.findByEmailAndIsDeleted("sky.guy@republic.co", 0)).thenReturn(Optional.of(user));
+        when(userDetails.getUsername()).thenReturn(USER_EMAIL);
+        when(mockUserRepository.findByEmailAndIsDeleted(USER_EMAIL, 0)).thenReturn(Optional.of(user));
         when(authentication.getPrincipal()).thenReturn(userDetails);
         doNothing().when(mockEmailService).sendSimpleMessage(anyString(), anyString(), anyString());
 
@@ -122,7 +99,7 @@ class DonationServiceTest {
         donation.setInstitution(institution);
         UserDetails userDetails = mock(UserDetails.class);
         Authentication authentication = mock(Authentication.class);
-        when(userDetails.getUsername()).thenReturn("sky.guy@republic.co");
+        when(userDetails.getUsername()).thenReturn(USER_EMAIL);
         when(authentication.getPrincipal()).thenReturn(userDetails);
 
         // when

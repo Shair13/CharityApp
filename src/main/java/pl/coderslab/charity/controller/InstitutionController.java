@@ -58,7 +58,7 @@ public class InstitutionController {
 
     @GetMapping("/institution/delete/{id}")
     public String deleteInstitution(@PathVariable Long id) {
-        institutionService.deleteInstitution(id);
+        institutionService.deleteRecoverInstitutionToggle(id);
         return "redirect:/dashboard/institutions";
     }
 }

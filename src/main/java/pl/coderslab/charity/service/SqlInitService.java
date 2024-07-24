@@ -23,7 +23,7 @@ public class SqlInitService {
 
     public String sqlInit(Model model) {
 
-        if (roleRepository.findByName("ROLE_ADMIN").isPresent()) {
+        if (roleRepository.findByName("ROLE_ADMIN").isEmpty()) {
             initRoles();
             initInstitutions();
             initAdmin();

@@ -8,11 +8,9 @@ import pl.coderslab.charity.exception.DonationNotFoundException;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Category;
 import pl.coderslab.charity.model.Donation;
-import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
-import pl.coderslab.charity.repository.InstitutionRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -25,7 +23,6 @@ public class DonationService {
 
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
-    private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
     private final EmailService emailService;
 
@@ -34,8 +31,15 @@ public class DonationService {
         return categoryRepository.findAll();
     }
 
-    public List<Institution> findAllInstitutions() {
-        return institutionRepository.findAllByIsDeleted(0);
+    public List<Donation> findAllUserDonations(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
+        return donationRepository.findAllSortedByArchivedAndPickUpDate(user);
+    }
+
+    public Donation findDonationById(Long id) {
+        return donationRepository.findById(id).orElseThrow(() -> new DonationNotFoundException(id));
     }
 
     public String makeDonation(Authentication authentication, Donation donation) {
@@ -53,17 +57,6 @@ public class DonationService {
         emailService.sendSimpleMessage(user.getEmail(), "Message from customer", emailText);
 
         return "Dziękujemy za przesłanie formularza. Na maila " + user.getEmail() + " prześlemy wszelkie informacje o odbiorze.";
-    }
-
-    public List<Donation> findAllUserDonations(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
-        return donationRepository.findAllSortedByArchivedAndPickUpDate(user);
-    }
-
-    public Donation findDonationById(Long id) {
-        return donationRepository.findById(id).orElseThrow(() -> new DonationNotFoundException(id));
     }
 
     public void setDonationArchive(Long id) {

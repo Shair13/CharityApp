@@ -26,9 +26,13 @@ public class InstitutionService {
         return institutionRepository.findById(id).orElseThrow(InstitutionNotFoundException::new);
     }
 
-    public void deleteInstitution(Long id) {
+    public void deleteRecoverInstitutionToggle(Long id) {
         Institution institution = institutionRepository.findById(id).orElseThrow(InstitutionNotFoundException::new);
-        institution.setIsDeleted(1);
+        if (institution.getIsDeleted() == 1) {
+            institution.setIsDeleted(0);
+        } else {
+            institution.setIsDeleted(1);
+        }
         institutionRepository.save(institution);
     }
 }
