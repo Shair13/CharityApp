@@ -1,12 +1,16 @@
 package pl.coderslab.charity.exception;
 
-public class UserNotFoundException extends RuntimeException{
+public class UserNotFoundException extends RuntimeException {
 
-    public UserNotFoundException(){
+    public UserNotFoundException() {
         super("Nie znaleziono użytkownika.");
     }
 
-    public UserNotFoundException(String message){
-        super(message);
+    public UserNotFoundException(String email) {
+        super("Użytkownik " + email + " nie istnieje.");
+    }
+
+    public UserNotFoundException(Long id) {
+        super("Użytkownik z id = " + id + " nie istnieje.");
     }
 }

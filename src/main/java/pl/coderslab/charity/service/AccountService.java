@@ -68,7 +68,7 @@ public class AccountService {
 
     public void updatePassword(PasswordDTO passwordDTO) {
         User user = userRepository.findById(passwordDTO.getId()).orElseThrow(() ->
-                new UserNotFoundException("Użytkownik z id = " + passwordDTO.getId() + " nie istnieje."));
+                new UserNotFoundException(passwordDTO.getId()));
         user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
         userRepository.save(user);
     }
@@ -76,7 +76,7 @@ public class AccountService {
     public UserDTO displayCurrentUser(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
@@ -86,7 +86,7 @@ public class AccountService {
     }
 
     public void updateUser(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserNotFoundException(userDTO.getId()));
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         userRepository.save(user);
@@ -97,7 +97,7 @@ public class AccountService {
 
     void checkEmailExists(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new UserExistsException();
+            throw new UserExistsException(user.getEmail());
         }
     }
 

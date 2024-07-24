@@ -41,8 +41,6 @@ class UserOperationServiceTest {
     private UserRepository mockUserRepository;
     @Mock
     private RoleRepository mockRoleRepository;
-    @Mock
-    private UserDetails userDetails;
     @InjectMocks
     private UserOperationService userOperationService;
 
@@ -190,7 +188,7 @@ class UserOperationServiceTest {
     void shouldDeleteUser() {
         // give
         User user = new User(USER_ID, FIRST_NAME, EMAIL, PASSWORD, ENABLED, NOT_DELETED, null, ROLES);
-        userDetails = mock(UserDetails.class);
+        UserDetails userDetails = mock(UserDetails.class);
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(user));

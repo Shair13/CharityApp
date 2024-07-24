@@ -29,7 +29,7 @@ public class DonationController {
         if (result.hasErrors()) {
             return "app/form";
         }
-        model.addAttribute("message", donationService.makeDonation(authentication, donation, model));
+        model.addAttribute("message", donationService.makeDonation(authentication, donation));
         return "home/success-page";
     }
 }

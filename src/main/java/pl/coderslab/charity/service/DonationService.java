@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import pl.coderslab.charity.exception.DonationNotFoundException;
 import pl.coderslab.charity.exception.UserNotFoundException;
 import pl.coderslab.charity.model.Category;
@@ -19,7 +18,6 @@ import pl.coderslab.charity.repository.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +38,10 @@ public class DonationService {
         return institutionRepository.findAllByIsDeleted(0);
     }
 
-    public String makeDonation(Authentication authentication, Donation donation, Model model) {
+    public String makeDonation(Authentication authentication, Donation donation) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
         donation.setUser(user);
         donationRepository.save(donation);
 
@@ -57,24 +55,22 @@ public class DonationService {
         return "Dziękujemy za przesłanie formularza. Na maila " + user.getEmail() + " prześlemy wszelkie informacje o odbiorze.";
     }
 
-    public List<Donation> findAllUserDonations(Authentication authentication){
+    public List<Donation> findAllUserDonations(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
         return donationRepository.findAllSortedByArchivedAndPickUpDate(user);
     }
 
-    public Donation findDonationById(Long id){
-       return donationRepository.findById(id).orElseThrow(DonationNotFoundException::new);
+    public Donation findDonationById(Long id) {
+        return donationRepository.findById(id).orElseThrow(() -> new DonationNotFoundException(id));
     }
 
-    public void setDonationArchive(Long id){
-        Optional<Donation> optionalDonation = donationRepository.findById(id);
-        optionalDonation.ifPresent(d -> {
-            d.setArchived(1);
-            d.setRealPickUpDate(LocalDate.now());
-            d.setRealPickUpTime(LocalTime.now());
-            donationRepository.save(d);
-        });
+    public void setDonationArchive(Long id) {
+        Donation donation = donationRepository.findById(id).orElseThrow(() -> new DonationNotFoundException(id));
+        donation.setArchived(1);
+        donation.setRealPickUpDate(LocalDate.now());
+        donation.setRealPickUpTime(LocalTime.now());
+        donationRepository.save(donation);
     }
 }
