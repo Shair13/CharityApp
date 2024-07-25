@@ -1,9 +1,7 @@
 services:
   springboot-app:
     container_name: springboot-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/shair13/charity-app:v1
     restart: always
     depends_on:
       mysqldb:
