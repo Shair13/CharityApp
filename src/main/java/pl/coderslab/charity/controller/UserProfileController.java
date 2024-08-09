@@ -39,7 +39,7 @@ public class UserProfileController {
     }
 
     @PostMapping("password")
-    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam String password2, BindingResult result) {
+    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam char[] password2, BindingResult result) {
         if (result.hasErrors() && !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "profile/change-password";
         }

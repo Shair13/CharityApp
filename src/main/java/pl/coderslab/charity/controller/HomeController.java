@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.dto.PasswordDTO;
+import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.service.*;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -37,16 +39,22 @@ public class HomeController {
 
     @GetMapping("/registration")
     public String displayRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("userDTO", new UserDTO());
+        model.addAttribute("passwordDTO", new PasswordDTO());
         return "home/registration-form";
     }
 
     @PostMapping("/registration")
-    public String processRegistrationForm(@Valid User user, BindingResult result, @RequestParam String password2, Model model) {
-        if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
+    public String processRegistrationForm(@Valid UserDTO userDTO, BindingResult resultUserDTO,
+                                          @Valid PasswordDTO passwordDTO, BindingResult resultPasswordDTO,
+                                          @RequestParam char[] password2,
+                                          Model model) {
+        if (resultPasswordDTO.hasErrors() || resultUserDTO.hasErrors() || !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
+            System.out.println("fail " + Arrays.toString(passwordDTO.getPassword()));
             return "home/registration-form";
         }
-        model.addAttribute("message", accountService.createAccount(user));
+        model.addAttribute("message", accountService.createAccount(userDTO, passwordDTO));
+        System.out.println("success " + Arrays.toString(passwordDTO.getPassword()));
         return "home/success-page";
     }
 
@@ -80,7 +88,7 @@ public class HomeController {
     }
 
     @PostMapping("/newpass")
-    public String processNewPasswordForm(PasswordDTO passwordDTO, @RequestParam String password2, Model model) {
+    public String processNewPasswordForm(PasswordDTO passwordDTO, @RequestParam char[] password2, Model model) {
         if (accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             accountService.updatePassword(passwordDTO);
             String message = "Hasło zostało zmienione! :)";

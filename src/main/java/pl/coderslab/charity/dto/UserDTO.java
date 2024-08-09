@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.coderslab.charity.model.Role;
+import pl.coderslab.charity.validator.Password;
 
 import java.util.Set;
 
@@ -22,4 +23,10 @@ public class UserDTO {
     private String email;
     private Set<Role> roles;
     private int enabled;
+
+    public UserDTO(String firstName, String email, int enabled) {
+        this.firstName = firstName;
+        this.email = email;
+        this.enabled = enabled;
+    }
 }

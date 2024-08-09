@@ -31,11 +31,11 @@ public class UserController {
     }
 
     @PostMapping("/user/add")
-    public String processAddUserForm(@Valid User user, BindingResult result, @RequestParam String password2) {
-        if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
+    public String processAddUserForm(@Valid UserDTO userDTO, @Valid PasswordDTO passwordDTO, BindingResult result, @RequestParam char[] password2) {
+        if (result.hasErrors() || !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "admin/user-add-form";
         }
-        accountService.saveNewUser(user, "USER");
+        accountService.saveNewUser(userDTO, passwordDTO,"USER");
         return "redirect:/dashboard/users";
     }
 
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/user/password")
-    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam String password2, BindingResult result) {
+    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam char[] password2, BindingResult result) {
         if (result.hasErrors() && !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "admin/user-change-password";
         }

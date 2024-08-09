@@ -14,7 +14,6 @@ import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.service.AccountService;
 import pl.coderslab.charity.service.UserOperationService;
 
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/dashboard")
@@ -30,11 +29,13 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add")
-    public String processAddAdminForm(User user, BindingResult result, @RequestParam String password2) {
-        if (result.hasErrors() || !accountService.comparePasswords(user.getPassword(), password2)) {
+    public String processAddAdminForm(@Valid UserDTO userDTO, BindingResult resultUserDTO,
+                                      @Valid PasswordDTO passwordDTO, BindingResult resultPasswordDTO,
+                                      @RequestParam char[] password2) {
+        if (resultUserDTO.hasErrors() || resultPasswordDTO.hasErrors() || !accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "admin/admin-add-form";
         }
-        accountService.saveNewUser(user, "ADMIN");
+        accountService.saveNewUser(userDTO, passwordDTO, "ADMIN");
         return "redirect:/dashboard/admins";
     }
 
@@ -67,11 +68,11 @@ public class AdminController {
     }
 
     @PostMapping("/admin/password")
-    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam String password2, BindingResult result) {
+    public String processChangePassForm(@Valid PasswordDTO passwordDTO, @RequestParam char[] password2, BindingResult result) {
         if (result.hasErrors() && accountService.comparePasswords(passwordDTO.getPassword(), password2)) {
             return "admin/admin-change-password";
         }
-
+        System.out.println(passwordDTO.getPassword());
         accountService.updatePassword(passwordDTO);
         return "redirect:/dashboard/admins";
     }

@@ -29,7 +29,6 @@ public class User {
     @NotBlank(message = "Pole nie może być puste")
     private String email;
 
-    @NotBlank(message = "Pole nie może być puste")
     @Password(message = "Hasło musi posiadać co najmniej jedną małą literę, jedną wielką literę, jedną cyfrę i jeden znak specjalny. Długość hasła powinna być większa niż 8 i mniejsza niż 32 znaki.")
     private String password;
 

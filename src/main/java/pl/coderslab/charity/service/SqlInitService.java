@@ -3,6 +3,8 @@ package pl.coderslab.charity.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import pl.coderslab.charity.dto.PasswordDTO;
+import pl.coderslab.charity.dto.UserDTO;
 import pl.coderslab.charity.model.Category;
 import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.Role;
@@ -31,7 +33,7 @@ public class SqlInitService {
             initInstitutions();
             initCategories();
             initAdmin();
-            initUser();
+//            initUser();
 
             String message = "Zainicjowano bazę danych! :)";
             model.addAttribute("message", message);
@@ -45,7 +47,7 @@ public class SqlInitService {
         roles.forEach(role -> roleRepository.save(new Role(role)));
     }
 
-    private void initCategories(){
+    private void initCategories() {
         List<String> categories = List.of("Koszulki", "Spodnie", "Bluzy", "Tekstylia", "Zabawki", "Elektronika", "Artykuły metalowe");
 
         categories.forEach(categoryName -> {
@@ -70,12 +72,16 @@ public class SqlInitService {
     }
 
     private void initAdmin() {
-        User admin = new User("Admin", "admin@admin.com","123!@#qweQWE", 1);
-        accountService.saveNewUser(admin, "ADMIN");
+        char[] password = {'1', '2', '3', '!', '@', '#', 'q', 'w', 'e', 'Q', 'W', 'E'};
+        PasswordDTO passwordDTO = new PasswordDTO(password);
+        UserDTO admin = new UserDTO("Admin", "admin@admin.com", 1);
+        accountService.saveNewUser(admin, passwordDTO, "ADMIN");
     }
 
     private void initUser() {
-        User user = new User("Jango Fett", "jango.fett@empire.ds","123!@#qweQWE", 1);
-        accountService.saveNewUser(user, "USER");
+        char[] password = {'1', '2', '3', '!', '@', '#', 'q', 'w', 'e', 'Q', 'W', 'E'};
+        PasswordDTO passwordDTO = new PasswordDTO(password);
+        UserDTO user = new UserDTO("Jango Fett", "jango.fett@empire.ds", 1);
+        accountService.saveNewUser(user, passwordDTO, "USER");
     }
 }

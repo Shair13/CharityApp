@@ -17,10 +17,7 @@ import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,38 +30,31 @@ public class AccountService {
     private final SpringDataUserDetailsService springDataUserDetailsService;
 
 
-    public void saveNewUser(User user, String role) {
-        checkEmailExists(user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByName("ROLE_" + role).orElseThrow(RoleNotFoundException::new);
-        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
-        userRepository.save(user);
+    public User saveNewUser(UserDTO userDTO, PasswordDTO passwordDTO, String role) {
+        checkEmailExists(userDTO.getEmail());
+        User user = createUser(userDTO, passwordDTO, role);
+        return userRepository.save(user);
     }
 
-    public String createAccount(User user) {
-        checkEmailExists(user);
-        saveNewUser(user, "USER");
+    public String createAccount(UserDTO userDTO, PasswordDTO passwordDTO) {
+        checkEmailExists(userDTO.getEmail());
+        User user = saveNewUser(userDTO, passwordDTO, "USER");
         String link = "http://localhost:8080/activation/" + user.getUuid();
         String emailText = "Cześć " + user.getFirstName() + ", oto link aktywacyjny do Twojego konta: " + link + " - kliknij, aby aktywować konto i móc się zalogować.";
         emailService.sendSimpleMessage(user.getEmail(), "Account confirmation", emailText);
 
-        return "Udało sie! Zajrzyj na swojego maila (" + user.getEmail() + "), tam znajdziesz link aktywacyjny do Twojego konta.";
+        return "Udało się! Zajrzyj na swojego maila (" + user.getEmail() + "), tam znajdziesz link aktywacyjny do Twojego konta.";
     }
 
     public UserDTO displayCurrentUser(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
         User user = userRepository.findByEmailAndIsDeleted(email, 0).orElseThrow(() -> new UserNotFoundException(email));
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setEnabled(user.getEnabled());
-        return userDTO;
+        return getUserDTO(user);
     }
 
-    public boolean comparePasswords(String password, String repeatedPassword) {
-        return password.equals(repeatedPassword);
+    public boolean comparePasswords(char[] password, char[] repeatedPassword) {
+        return Arrays.equals(password, repeatedPassword);
     }
 
     public String remindPassword(User user, String email) {
@@ -81,7 +71,7 @@ public class AccountService {
     public void updatePassword(PasswordDTO passwordDTO) {
         User user = userRepository.findById(passwordDTO.getId()).orElseThrow(() ->
                 new UserNotFoundException(passwordDTO.getId()));
-        user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
+        user.setPassword(encodePassword(passwordDTO.getPassword()));
         userRepository.save(user);
     }
 
@@ -95,9 +85,9 @@ public class AccountService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    void checkEmailExists(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new UserExistsException(user.getEmail());
+    void checkEmailExists(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserExistsException(email);
         }
     }
 
@@ -105,4 +95,35 @@ public class AccountService {
         return roleRepository.findAll();
     }
 
+    private String encodePassword(char[] password) {
+        String encodedPassword;
+        try {
+            String stringPassword = new String(password);
+            encodedPassword = passwordEncoder.encode(stringPassword);
+            stringPassword = null;
+        } finally {
+            Arrays.fill(password, '0');
+        }
+        return encodedPassword;
+    }
+
+    private User createUser(UserDTO userDTO, PasswordDTO passwordDTO, String role){
+        User user = new User();
+        user.setEnabled(userDTO.getEnabled());
+        user.setFirstName(userDTO.getFirstName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(encodePassword(passwordDTO.getPassword()));
+        Role userRole = roleRepository.findByName("ROLE_" + role).orElseThrow(RoleNotFoundException::new);
+        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+        return user;
+    }
+
+    private UserDTO getUserDTO(User user){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setEnabled(user.getEnabled());
+        return userDTO;
+    }
 }
